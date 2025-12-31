@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UZB SMP | Login</title>
+  <link rel="icon" type="image/x-icon" href="logo.png">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Ko‘z belgisi uchun CSS, sahifa dizayniga mos */
+    .password-container {
+      position: relative;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 5px;
+      top: 53%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="logo.png" alt="Logo" class="login-logo">
+    <div class="login-form">
+      <h1>Login</h1>
+      <input class="login-input" type="text" id="username" placeholder="Minecraft name">
+      
+      <div class="password-container">
+        <input class="login-input" type="password" id="password" placeholder="Password">
+        <span class="toggle-password" onclick="togglePassword('password')"><img class="eye" src="eye-removebg-preview.png" alt=""></span>
+      </div>
+      
+      <button class="login-button" onclick="login()">Login</button>
+      <p id="result"></p>
+      <p>Yangi foydalanuvchi? <a class="register-link" href="register.html">Register</a></p>
+    </div>
+  </div>
+
+<script src="script.js"></script>
+<script>
+  // Ko‘z bosilganda parolni ko‘rsatish/faylni yashirish
+  function togglePassword(id) {
+      const input = document.getElementById(id);
+      input.type = input.type === "password" ? "text" : "password";
+  }
+</script>
+</body>
+</html>

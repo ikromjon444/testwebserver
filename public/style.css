@@ -1,0 +1,1233 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f172a;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 10px auto;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    color: #22c55e;
+}
+
+.user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* vertical tekislash */
+    padding: 10px 0;
+}
+
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background: #1e293b;
+    border-radius: 15px;
+    padding: 20px;
+    transition: 0.3s;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    height: 250px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+}
+
+.card img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    margin: 10px 0 5px 0;
+    font-size: 1.2em;
+}
+
+.card p {
+    margin: 0;
+    font-size: 1em;
+    color: #a1a1aa;
+}
+
+button.logout {
+    /* padding: 10px 20px; */
+    background: #ef4444;
+    height: 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button.logout:hover {
+    background: #dc2626;
+}
+
+/* Tooltip */
+.card .tooltip {
+    visibility: hidden;
+    width: 150px;
+    background-color: #111827;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: 0.3s;
+    font-size: 0.9em;
+    z-index: 1;
+}
+
+.card:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+#game-area {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid #22c55e;
+    display: flex;
+    justify-content: center;
+    background-image: url('bg.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    touch-action: none; /* mobilda scrollni oldini oladi */
+}
+
+#basket {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 150px;
+    height: 30px;
+    background-color: #8b5a2b;
+    border: 2px solid #5c3a1a;
+    box-shadow: inset -5px -5px 0 #a9745b, inset 5px 5px 0 #5c3a1a;
+}
+
+.coin {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    top: 0;
+}
+
+
+
+.coin-value {
+    position: absolute;
+    color: #fff;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.navbar {
+    background-color: #1e293b;
+    display: flex;
+    width: 70%;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid #22c55e;
+    border-radius: 10px;
+    height: 35px;
+
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1.1em;
+    transition: color 0.2s;
+}
+
+.navbar a:hover {
+    color: #22c55e;
+}
+
+.navbar .logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #22c55e;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+}
+
+.coin1 {
+    width: 30px;
+    height: 30px;
+}
+
+.coins {
+    display: flex;
+    align-items: center;
+    /* rasm va raqamni tekis qiladi */
+    gap: 6px;
+    /* rasm va son orasidagi masofa */
+    font-weight: bold;
+}
+
+.coin-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 6px 12px;
+    background: #1e293b;
+    border: 2px solid #22c55e;
+    border-radius: 20px;
+
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.coin-icon {
+    width: 30px;
+    height: 27px;
+    image-rendering: pixelated;
+}
+
+.user-info span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.header {
+    display: flex;
+    width: 100%;
+    height: 60px;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #1e293b;
+}
+
+#shop-items {
+    margin-top: 50px;
+}
+
+.card img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    image-rendering: pixelated;
+    /* Minecraft style */
+}
+
+.shop-search {
+    margin: 20px 0;
+}
+
+#shop-search-input {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 2px solid #22c55e;
+    background: #1e293b;
+    color: #fff;
+    font-size: 1em;
+    outline: none;
+}
+
+#shop-search-input::placeholder {
+    color: #a1a1aa;
+}
+
+.back-to-shop {
+    color: #22c55e;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+.game1 {
+    width: 200px;
+    height: 200px;
+    image-rendering: pixelated;
+    border-radius: 35px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game1:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+}
+
+.game1-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    image-rendering: pixelated;
+}
+
+#play-game-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #22c55e;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#pause-game-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #f59e0b;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.login-form {
+    background: #1e293b;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    margin: 50px auto;
+}
+
+.login-input {
+    width: 90%;
+    padding: 10px 15px;
+    margin: 10px 0;
+    border: 2px solid #22c55e;
+    border-radius: 8px;
+    background: #0f172a;
+    color: #fff;
+    font-size: 1em;
+    outline: none;
+}
+
+.login-button {
+    width: 95%;
+    padding: 10px 15px;
+    margin-top: 15px;
+    background: #22c55e;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.register-link {
+    color: #22c55e;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+.register-form {
+    background: #1e293b;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    margin: 50px auto;
+}
+
+.login-logo {
+    width: 100px;
+    height: 100px;
+    image-rendering: pixelated;
+}
+
+.coin-link {
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
+}
+
+.purchase-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #22c55e;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.min-amount {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #a1a1aa;
+}
+
+.max-amount {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #a1a1aa;
+}
+
+.coin-price {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.coin-info-box {
+    margin-top: 20px;
+    padding: 15px;
+    background: #1e293b;
+    border: 2px solid #22c55e;
+    border-radius: 10px;
+}
+
+.coin-amount-box {
+    margin-top: 20px;
+    padding: 5px;
+    background: #0f172a;
+    border: 2px solid #22c55e;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    width: 400px;
+}
+
+.coin-calculator {
+    margin-top: 20px;
+    padding: 5px;
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    width: 350px;
+    font-family: Arial, sans-serif;
+    background-color: #0f172a;
+    color: #fff;
+}
+
+.coin-calculator h3 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#coinInput {
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: 1px solid #4CAF50;
+    font-size: 16px;
+    background-color: #121212;
+    color: #fff;
+}
+
+#coinInput:focus {
+    outline: none;
+    border-color: #00ff00;
+}
+
+#coinPriceResult {
+    white-space: nowrap;
+    font-weight: bold;
+    color: #00ff00;
+}
+
+.calculate-btn {
+    padding: 8px 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#buy-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #22c55e;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.quantity-input {
+    width: 60px;
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: 1px solid #4CAF50;
+    font-size: 16px;
+    background-color: #121212;
+    color: #fff;
+}
+
+.rank-section {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.rank-title {
+    font-size: 28px;
+    margin-bottom: 25px;
+}
+
+.rank-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.rank-card {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.rank-card h3 {
+    margin-bottom: 10px;
+}
+
+.rank-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.rank-card ul li {
+    margin: 6px 0;
+}
+
+.rank-price {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.buy-rank {
+    margin-top: 12px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Ranglar */
+.player {
+    border-top: 4px solid gray;
+}
+
+.vip {
+    border-top: 4px solid #00bfff;
+}
+
+.mvp {
+    border-top: 4px solid #b84cff;
+}
+
+.legend {
+    border-top: 4px solid gold;
+}
+
+.buy-rank {
+    background: #2ecc71;
+    color: #000;
+    transition: 0.3s;
+}
+
+.rank-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+}
+
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.toast {
+    min-width: 260px;
+    margin-bottom: 10px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.4s ease, fadeOut 0.4s ease 3s forwards;
+}
+
+.toast.success {
+    background: linear-gradient(135deg, #00b09b, #96c93d);
+}
+
+.toast.error {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+.gradient-text {
+    background: linear-gradient(to bottom, #00c6ff, #0072ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.title-smp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.banner-img {
+    width: auto;
+    height: auto;
+    image-rendering: pixelated;
+}
+
+.chiziq {
+    width: 80%;
+    height: 2px;
+    background: #22c55e;
+    margin: 20px auto;
+    border-radius: 5px;
+}
+
+.banner-text {
+    background-color: #1e293b;
+    font-size: 1.5em;
+    color: #fff;
+    margin-top: 100px;
+    text-align: center;
+    height: 300px;
+    border-radius: 25px;
+    border: 2px solid #22c55e;
+
+}
+
+.voice-chat {
+    margin-top: 30px;
+    padding: 15px;
+    background: #1e293b;
+    border: 2px solid #22c55e;
+    border-radius: 10px;
+    font-size: 1.1em;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.voice-chat-img {
+    width: 150px;
+    height: 150px;
+    image-rendering: pixelated;
+    margin-right: 10px;
+
+}
+
+.download-voice-chat {
+    margin-top: 5px;
+    padding: 10px 20px;
+    background: #22c55e;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.download-voice-chat:hover {
+    background: #16a34a;
+}
+
+.amount-calculator {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    width: 97%;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.coin-buy-text {
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.search-result {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #ff4b2b;
+    display: none;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto;
+    background: url('cave.webp') no-repeat center center;
+    border: 2px solid #fff;
+    position: relative;
+    width: 80%;
+    height: 400px;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid #22c55e;
+    display: flex;
+    justify-content: center;
+}
+
+#coin-display,
+#time-display {
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    margin: 5px;
+}
+
+#controls {
+    text-align: center;
+    margin-top: 10px;
+}
+
+#startBtn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #22c55e;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#startBtn:hover {
+    background: #16a34a;
+}
+
+#pauseBtn {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background: #f59e0b;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.coin-value {
+    position: absolute;
+    color: yellow;
+    font-weight: bold;
+    pointer-events: none;
+    font-size: 16px;
+    animation: rise 1s ease-out forwards;
+}
+
+@keyframes rise {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+}
+
+.controls {
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    margin: 5px;
+}
+
+.game2-img {
+    width: 300px;
+    height: 250px;
+    border-radius: 15px;
+    image-rendering: pixelated;
+}
+
+.games-section {
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.adsterra-banner {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+}
+
+.viprank-price {
+    display: block;
+    font-weight: bold;
+    color: gold;
+}
+
+.section-title {
+    font-size: 28px;
+    margin-bottom: 25px;
+    color: white;
+}
+
+.viprank-img {
+    width: 60px;
+    height: 60px;
+}
+
+.shop-title {
+    color: white;
+    font-size: 25px;
+}
+
+.buy-rank:hover {
+    color: white;
+    background-color: #22c55e;
+}
+
+#shop-title-name {
+    color: #0072ff;
+    text-decoration: underline;
+}
+
+.server-status {
+    background-color: #1e293b;
+    width: 700px;
+    color: #fff;
+    margin: 100px auto 0 auto;
+    /* markazga joylash */
+    text-align: center;
+    height: 250px;
+    border-radius: 25px;
+    border: 2px solid #22c55e;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+
+#serverCircle {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: gray;
+    /* default rang */
+}
+
+/* Loading animatsiyasi uchun */
+.loading {
+    border: 3px solid #fff;
+    border-top: 3px solid transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+#serverHolati {
+    font-size: 22px;
+}
+
+.password-container {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.eye {
+    width: 35px;
+    height: 30px;
+}
+
+.exit {
+    display: none;
+}
+
+#logoutr {
+    display: none;
+}
+
+#coinr {
+    display: none;
+}
+
+.promo-input {
+    padding: 10px 20px;
+    background-color:#111827;
+    color: white;
+}
+
+.promo-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #22c55e;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.2s;
+    color: white;
+}
+
+/* ===== Media Query for Mobile ===== */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 10px;
+    }
+
+    #coinr {
+        display: block;
+        width: 40px;
+        height: 15px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #logoutr {
+        display: block;
+    }
+
+    .coin-icon {
+        width: 25px;
+        height: 20px;
+    }
+
+    .header {
+        flex-direction: column;
+        height: auto;
+        gap: 10px;
+    }
+
+    .user-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .navbar {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 1px 0;
+        font-size: 15px;
+    }
+
+    .navbar a,
+    .navbar button {
+        font-size: 0.7em;
+
+    }
+
+    .title-smp {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .banner-img {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+    }
+
+    .server-status {
+        width: 60%;
+        height: auto;
+        padding: 20px;
+        font-size: 18px;
+    }
+
+    .banner-text {
+        width: 90%;
+        font-size: 1em;
+        height: auto;
+        padding: 15px;
+    }
+
+    .voice-chat {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .voice-chat-img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .text-btn button {
+        width: 90%;
+    }
+
+    .rank-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #shop-items {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .shop-search input {
+        width: 90%;
+    }
+
+    canvas {
+        width: 95%;
+        height: 200px;
+    }
+
+    .games-section {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .game1,
+    .game2-img {
+        width: 80%;
+        height: auto;
+    }
+
+    .coin-calculator {
+        width: 95%;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .quantity-input,
+    #coinInput {
+        width: 60%;
+    }
+
+    .userinfo {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .exit {
+        width: 30px;
+        height: 30px;
+        display: block;
+    }
+
+    #dfn {
+        display: none;
+    }
+
+    #coinboxremove {
+        display: none;
+    }
+
+    .games-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #dnt {
+        display: none;
+    }
+
+    .banner-img {
+        display: none;
+    }
+
+    .title-smp {
+        font-size: 10px;
+    }
+
+    .server-status {
+        height: 100px;
+    }
+    .coin-amount-box{
+        width: 95%;
+    }
+    #game-area{
+        background-size: 100% 100%;
+        height: 200px;
+    }
+    #basket{
+        width: 100px;
+    }
+}
+/* Leaderboard container */
+#leaderboard {
+    background-color: #1e1e2f;
+    padding: 20px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 300px;
+    margin: 30px auto;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    font-family: 'Arial', sans-serif;
+}
+
+/* Leaderboard title */
+#leaderboard h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 24px;
+    color: #ffd700; /* oltin rang */
+    text-shadow: 1px 1px 4px #000;
+}
+
+/* Leaderboard list */
+#leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Individual leaderboard items */
+#leaderboard-list li {
+    background: linear-gradient(90deg, #2c2c44, #3a3a5a);
+    margin: 8px 0;
+    padding: 12px 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s, background 0.3s;
+}
+
+/* Hover effekt */
+#leaderboard-list li:hover {
+    transform: scale(1.03);
+    background: linear-gradient(90deg, #3a3a5a, #4a4a7a);
+}
+
+/* Rank number highlight */
+#leaderboard-list {
+    counter-reset: rank; /* start counter */
+}
+
+
+
+/* Coins text */
+#leaderboard-list li span.coins {
+    background-color: #ffd700;
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UZB SMP | Item Detail </title>
+  <link rel="icon" type="image/x-icon" href="logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <a class="back-to-shop" href="shop.html">
+                < Orqaga</a>
+                    <div class="user-info">
+
+
+                        <div class="coin-box">
+                            <img src="gold.webp" class="coin-icon" alt="Coins"> <strong id="coins"></strong>
+                        </div>
+                    </div>
+        </div>
+        <div id="toast-container"></div>
+
+        <div id="item-detail">
+            <h2 id="item-name"></h2>
+            <img id="item-image" src="" alt="">
+            <p>Narxi: <span id="item-price"></span> coins</p>
+            <label for="quantity">Miqdori:</label>
+            <input class="quantity-input" type="number" id="quantity" value="1" min="1">
+
+            <button id="buy-btn">Sotib olish</button>
+
+            <p id="result"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        loadUser();
+
+        const params = new URLSearchParams(window.location.search);
+        const itemId = parseInt(params.get('id'));
+        const item = SHOP_ITEMS.find(i => i.id === itemId);
+
+        if (!item) {
+            document.getElementById('item-detail').innerHTML = '<p>Item topilmadi!</p>';
+        } else {
+            const itemPriceEl = document.getElementById('item-price');
+            const quantityInput = document.getElementById('quantity');
+
+            document.getElementById('item-name').innerText = item.name;
+            document.getElementById('item-image').src = item.image;
+
+            function updatePrice() {
+                const quantity = parseInt(quantityInput.value) || 1;
+                const totalPrice = item.price * quantity;
+                itemPriceEl.innerText = formatCoins(totalPrice);
+            }
+
+            // Boshlang‘ich narx
+            updatePrice();
+
+            // Quantity o‘zgarganda narxni yangilash
+            quantityInput.oninput = updatePrice;
+
+            document.getElementById('buy-btn').onclick = async () => {
+                const quantity = parseInt(quantityInput.value) || 1;
+                const token = getToken();
+                if (!token) return window.location.href = 'index.html';
+
+                try {
+                    const res = await fetch('http://mcback.onrender.com/buy-item', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': token
+                        },
+                        body: JSON.stringify({ itemId: item.id, quantity })
+                    });
+
+                    // Har qanday holatda JSON o‘qiladi
+                    const data = await res.json();
+
+                    // Backend mantiqiy xatolik yuborsa (masalan coin yetarli emas)
+                    if (!res.ok) {
+                        showToast(data.message || 'Xatolik yuz berdi', 'error');
+                        return;
+                    }
+
+                    // Muvaffaqiyatli xarid
+                    showToast(data.message, 'success');
+                    loadUser();
+
+                } catch (err) {
+                    // Backend umuman ishlamasa
+                    showToast(
+                        'Server bilan aloqa yo‘q. Iltimos, keyinroq urinib ko‘ring.',
+                        'error'
+                    );
+                    console.error(err);
+                }
+            };
+        }
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+
+            toast.className = `toast ${type}`;
+            toast.innerText = message;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3500);
+        }
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UZB SMP | Shop</title>
+    <link rel="icon" type="image/x-icon" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+    <div class="header">
+      <div class="userinfo">
+        <span>User: <strong class="username"></strong></span>
+        <div id="coinr" class="coin-box">
+          <img src="gold.webp" class="coin-icon" alt="Coins">
+          <strong id="coins"></strong>
+
+        </div>
+        <button id="logoutr" class="logout" onclick="logout()"><img class="exit" src="logout.png" alt=""></button>
+
+      </div>
+      <div class="navbar">
+        <a href="games.html">Games</a>
+        <a href="home.html">Home</a>
+        <a href="rank.html">Rank</a>
+        <a href="shop.html">Shop</a>
+        <a href="coin_purchase.html">Coin sotib olish</a>
+        <button id="dfn" class="logout" onclick="logout()">Logout</button>
+      </div>
+      <div class="user-info">
+        <div id="coinboxremove" class="coin-box">
+          <img src="gold.webp" class="coin-icon" alt="Coins">
+          <strong id="coins2"></strong>
+
+        </div>
+
+      </div>
+    </div>
+        <div class="shop-search">
+            <input type="text" id="shop-search-input" placeholder="Search items...">
+        </div>
+        <h1 class="shop-title">Shop</h1>
+        <div class="chiziq"></div>
+
+        <h1 class="shop-title">
+            Sotib olgan narsalaringiz <h1 class="gradient-text">UZB SMP</h1>
+
+            <h1 class="shop-title">
+                serveridagi
+                <strong id="shop-title-name" class="username"></strong>
+                akauntiga tushadi
+            </h1>
+        </h1>
+        <div id="shop-items" class="shop-grid"></div>
+
+        <p id="result" class="search-result"></p>
+
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const searchInput = document.getElementById('shop-search-input');
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase();
+            const filteredItems = SHOP_ITEMS.filter(item => item.name.toLowerCase().includes(query));
+            renderShop(filteredItems);
+        });
+
+    </script>
+</body>
+
+</html>

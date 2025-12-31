@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UZB SMP | Game 2</title>
+  <link rel="icon" type="image/x-icon" href="logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+  <div class="container">
+    <a class="back-to-shop" href="games.html">< Orqaga</a>
+    <div id="coin-display">Coins: 0</div>
+    <div id="time-display">Time: 60</div>
+    <h1 class="controls">boshqarish A , D</h1>
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
+
+    <div id="controls">
+        <button id="startBtn">Start Game</button>
+        <button id="pauseBtn" disabled>Pause</button>
+    </div>
+</div>
+    <!-- ONLINE SOUNDS -->
+    <audio id="shootSound" src="https://freesound.org/data/previews/341/341695_5260875-lq.mp3" preload="auto"></audio>
+    <audio id="coinSound" src="coinsound.mp3" preload="auto"></audio>
+    <audio id="gameOverSound" src="https://freesound.org/data/previews/341/341695_5260875-lq.mp3"
+        preload="auto"></audio>
+
+    <script>
+        function getToken() { return localStorage.getItem('token'); }
+
+        // --- GAME VARIABLES ---
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let player = { x: 275, y: 350, width: 40, height: 50, speed: 8 };
+        let enemies = [];
+        let coins = [];
+        let coinsCollected = 0;
+        let gameSpeed = 2;
+        let gameTime = 60;
+        let isGameOver = false;
+        let isPaused = true;
+
+        let keys = {};
+        document.addEventListener("keydown", e => keys[e.key] = true);
+        document.addEventListener("keyup", e => keys[e.key] = false);
+
+        // Coin turlari
+        // Coin turlari rasm bilan
+        const coinTypes = [
+            { type: 'bronze', value: 2, imgSrc: 'bronze.png', probability: 0.6 },
+            { type: 'silver', value: 4, imgSrc: 'silver.webp', probability: 0.3 },
+            { type: 'gold', value: 6, imgSrc: 'gold.webp', probability: 0.1 }
+        ];
+
+
+        // --- AUDIO ELEMENTS ---
+        const coinSound = document.getElementById('coinSound');
+        const gameOverSound = document.getElementById('gameOverSound');
+
+        // --- GAME CONTROL INTERVALS ---
+        let enemyInterval, coinInterval, speedInterval, timeInterval;
+
+        // --- GAME FUNCTIONS ---
+        function spawnEnemy() {
+            if (isPaused) return;
+            enemies.push({ x: Math.random() * 550, y: 0, width: 50, height: 55 });
+        }
+
+      function spawnCoin() {
+    if (isPaused) return;
+
+    // Tasodifiy coin tanlash ehtimol asosida
+    let rand = Math.random(); // 0 - 1 orasida
+    let sum = 0;
+    let selectedCoin = coinTypes[0]; // default
+
+    for (let c of coinTypes) {
+        sum += c.probability;
+        if (rand <= sum) {
+            selectedCoin = c;
+            break;
+        }
+    }
+
+    const img = new Image();
+    img.src = selectedCoin.imgSrc;
+
+    coins.push({
+        x: Math.random() * 565,
+        y: 0,
+        width: 30,
+        height: 40,
+        value: selectedCoin.value,
+        img: img
+    });
+}
+
+
+        function startGame() {
+            if (!isPaused) return;
+            isPaused = false;
+            document.getElementById("startBtn").disabled = true;
+            document.getElementById("pauseBtn").disabled = false;
+
+            enemyInterval = setInterval(spawnEnemy, 1500);
+            coinInterval = setInterval(spawnCoin, 1000);
+            speedInterval = setInterval(() => { gameSpeed += 0.2 }, 5000);
+            timeInterval = setInterval(() => {
+                if (!isPaused) {
+                    gameTime--;
+                    document.getElementById('time-display').innerText = `Time: ${gameTime}`;
+                    if (gameTime <= 0) { gameOver(); }
+                }
+            }, 1000);
+        }
+
+        document.getElementById("startBtn").onclick = startGame;
+
+        document.getElementById("pauseBtn").onclick = () => {
+            isPaused = !isPaused;
+            document.getElementById("pauseBtn").innerText = isPaused ? "Resume" : "Pause";
+        };
+
+        // --- GAME UPDATE & DRAW ---
+        function update() {
+            if (isGameOver || isPaused) return;
+
+            // Player harakat
+            if (keys["a"] && player.x > 0) player.x -= player.speed;
+            if (keys["d"] && player.x < canvas.width - player.width) player.x += player.speed;
+
+            // Coin collision
+            coins.forEach((c, i) => {
+                if (player.x < c.x + c.width && player.x + player.width > c.x &&
+                    player.y < c.y + c.height && player.y + player.height > c.y) {
+                    coinsCollected += c.value;
+                    showCoinValue(c.value);
+                    coinSound.currentTime = 0;
+                    coinSound.play();
+                    updateCoinDisplay();
+                    coins.splice(i, 1);
+                }
+            });
+
+            // Enemy collision
+            enemies.forEach(e => {
+                if (player.x < e.x + e.width && player.x + player.width > e.x &&
+                    player.y < e.y + e.height && player.y + player.height > e.y) {
+                    gameOver();
+                }
+            });
+
+            // Coin & enemy harakat
+            coins.forEach(c => c.y += gameSpeed);
+            enemies.forEach(e => e.y += gameSpeed);
+
+            // Canvasdan chiqib ketganlar
+            coins = coins.filter(c => c.y <= canvas.height);
+            enemies = enemies.filter(e => e.y <= canvas.height);
+        }
+
+        // Player rasmini tashqarida yaratish
+        const playerImg = new Image();
+        playerImg.src = 'stevehead.jpg'; // o‘zingizning rasm manzilingiz
+        const enemyImg = new Image();
+enemyImg.src = 'spiderhead.jfif';
+
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // avval canvasni tozalash
+
+            // Playerni chizish
+            ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
+
+            // Dushmanlar
+            enemies.forEach(e => ctx.drawImage(enemyImg, e.x, e.y, e.width, e.height));
+
+            // Tangalar
+           coins.forEach(c => {
+    if (c.img) {
+        ctx.drawImage(c.img, c.x, c.y, c.width, c.height);
+    } else {
+        ctx.fillStyle = c.color; // fallback uchun
+        ctx.fillRect(c.x, c.y, c.width, c.height);
+    }
+});
+
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+            if (!isGameOver) requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
+
+        // --- COIN DISPLAY ---
+        function updateCoinDisplay() {
+            const coinDisplay = document.getElementById("coin-display");
+            coinDisplay.innerText = `Coins: ${coinsCollected}`;
+        }
+
+        function showCoinValue(value) {
+            const canvasRect = canvas.getBoundingClientRect();
+            const valDiv = document.createElement('div');
+            valDiv.className = 'coin-value';
+            valDiv.innerText = `+${value}`;
+            valDiv.style.left = (canvasRect.left + player.x + player.width / 2 - 10) + 'px';
+            valDiv.style.top = (canvasRect.top + player.y - 20) + 'px';
+            document.body.appendChild(valDiv);
+            setTimeout(() => valDiv.remove(), 1000);
+        }
+
+        // --- GAME OVER ---
+        async function gameOver() {
+            if (isGameOver) return;
+            isGameOver = true;
+            clearInterval(enemyInterval);
+            clearInterval(coinInterval);
+            clearInterval(speedInterval);
+            clearInterval(timeInterval);
+            gameOverSound.play();
+            alert(`O'yin tugadi! Coin: ${coinsCollected}`);
+            await sendCoinsToServer();
+            window.location.reload();
+        }
+
+        // --- SEND COINS TO SERVER ---
+        async function sendCoinsToServer() {
+            const token = getToken();
+            if (!token) return;
+            try {
+                await fetch('http://mcback.onrender.com/play-game', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': token
+                    },
+                    body: JSON.stringify({ coinsEarned: coinsCollected })
+                });
+                coinsCollected = 0;
+                updateCoinDisplay();
+            } catch (err) {
+                console.error('Server bilan aloqa yo‘q', err);
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UZB SMP | Coin sotib olish</title>
+    <link rel="icon" type="image/x-icon" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="userinfo">
+                <span>User: <strong class="username"></strong></span>
+                <div id="coinr" class="coin-box">
+                    <img src="gold.webp" class="coin-icon" alt="Coins">
+                    <strong id="coins"></strong>
+
+                </div>
+                <button id="logoutr" class="logout" onclick="logout()"><img class="exit" src="logout.png"
+                        alt=""></button>
+
+            </div>
+            <div class="navbar">
+                <a href="games.html">Games</a>
+                <a href="home.html">Home</a>
+                <a href="rank.html">Rank</a>
+                <a href="shop.html">Shop</a>
+                <a href="coin_purchase.html">Coin sotib olish</a>
+                <button id="dfn" class="logout" onclick="logout()">Logout</button>
+            </div>
+            <div class="user-info">
+                <div id="coinboxremove" class="coin-box">
+                    <img src="gold.webp" class="coin-icon" alt="Coins">
+                    <strong id="coins2"></strong>
+
+                </div>
+
+            </div>
+        </div>
+        <div id="toast-container"></div>
+
+        <div class="coin-purchase-box">
+            <h2>Coin sotib olish</h2>
+            <div class="coin-info-box">
+                <p class="coin-buy-text">Coin sotib olishni istasangiz "sotib olish" tugmasini bosing va admin ga
+                    kerakli coin miqdorini yozing admin carta raqamni aytadi va to'lovni amalga oshirasiz. <br><br>
+                    (Rankniham hoddi shu usulda)</p>
+            </div>
+            <a href="https://t.me/ikromjon_0055" target="_blank">
+                <button class="purchase-btn" onclick="purchaseCoins()">Sotib olish</button>
+            </a>
+            <div class="coin-amount-box">
+                <h2 class="min-amount">minimum miqdor: 5k</h2>
+                <h2 class="max-amount">maximal miqdor: 10M</h2>
+
+
+                <h2 class="coin-price">Coin narxi: 5k coin = 2 000 so'm</h2>
+
+            </div>
+
+            <div class="coin-calculator">
+                <h3>Coin narxini hisoblash</h3>
+                <input type="number" id="coinInput" placeholder="Coin miqdorini kiriting">
+                <button class="calculate-btn" onclick="calculatePrice()">Hisoblash</button>
+                <p id="coinPriceResult"></p>
+            </div>
+            <h1>Promokod</h1>
+            <div class="chiziq"></div>
+            <input class="promo-input" type="text" id="promoInput" placeholder="Promokodni kiriting">
+            <button class="promo-btn" onclick="redeemCode()">Redeem</button>
+            <div class="chiziq"></div>
+            <div id="leaderboard">
+                <h2>Top Boy o'yinchilar</h2>
+                <ul id="leaderboard-list">
+                    <!-- misol uchun -->
+                    <li><span>1. User1</span> <span class="coins">15k coins</span></li>
+                    <li><span>2. User2</span> <span class="coins">12k coins</span></li>
+                </ul>
+
+            </div>
+
+            <p id="purchase-result"></p>
+        </div>
+        <script src="script.js"></script>
+
+        <script>
+            // Coin narxi formulasi, masalan 5k coin = 2000 so'm
+            const baseCoin = 5000;
+            const basePrice = 2000; // 5000 coin uchun narx
+
+            function calculatePrice() {
+                const coinAmount = document.getElementById("coinInput").value;
+                const price = (coinAmount / baseCoin) * basePrice;
+                if (coinAmount < 5000) {
+                    document.getElementById("coinPriceResult").innerText = "Minimum miqdor 5k coin";
+                } else if (coinAmount > 10000000) {
+                    document.getElementById("coinPriceResult").innerText = "Maximum miqdor 10M coin";
+                } else {
+                    document.getElementById("coinPriceResult").innerText = `${coinAmount} coin = ${price.toLocaleString()} so'm`;
+                }
+            }
+
+           function formatCoins(coins) {
+    if (coins < 1000) {
+        return coins.toString();
+    }
+
+    if (coins < 1_000_000) {
+        return (coins / 1000)
+            .toFixed(coins % 1000 === 0 ? 0 : 1)
+            .replace('.0', '') + 'k';
+    }
+
+    return (coins / 1_000_000)
+        .toFixed(coins % 1_000_000 === 0 ? 0 : 1)
+        .replace('.0', '') + 'M';
+}
+
+
+            function calculatePrice() {
+                const coinAmount = parseInt(document.getElementById("coinInput").value);
+                const price = (coinAmount / baseCoin) * basePrice;
+
+                if (coinAmount < 5000) {
+                    document.getElementById("coinPriceResult").innerText = "Minimum miqdor 5k coin";
+                } else if (coinAmount > 10000000) {
+                    document.getElementById("coinPriceResult").innerText = "Maximum miqdor 10M coin";
+                } else {
+                    document.getElementById("coinPriceResult").innerText = `${formatCoins(coinAmount)} coin = ${price.toLocaleString()} so'm`;
+                }
+            }
+            async function fetchLeaderboard() {
+                try {
+                    const res = await fetch('http://mcback.onrender.com/leaderboard');
+                    const data = await res.json();
+                    if (data.success) {
+                        const list = document.getElementById('leaderboard-list');
+                        list.innerHTML = '';
+                        data.leaderboard.forEach((user, index) => {
+                            const li = document.createElement('li');
+                            li.textContent = `${index + 1}. ${user.username} - ${formatCoins(user.coins)} coins `;
+                            list.appendChild(li);
+                        });
+
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+
+            // Har 5 soniyada yangilash
+            fetchLeaderboard();
+            setInterval(fetchLeaderboard, 5000);
+            async function redeemCode() {
+                const code = document.getElementById('promoInput').value;
+                const token = localStorage.getItem('token'); // login token
+
+                if (!code) return alert("Promokod kiriting");
+
+                try {
+                    const res = await fetch('http://mcback.onrender.com/redeem', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': token
+                        },
+                        body: JSON.stringify({ code })
+                    });
+
+                    const data = await res.json();
+
+                    if (data.success) alert(data.message);
+                    else alert(data.message);
+                } catch (err) {
+                    console.error(err);
+                    alert("Server bilan bog‘lanishda xatolik yuz berdi");
+                }
+            }
+            // Toast xabar funksiyasi
+            function showToast(message, type = 'success') {
+                const toastContainer = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.classList.add('toast', type);
+                toast.innerText = message;
+
+                toastContainer.appendChild(toast);
+
+                // 3.5 soniya keyin o'chirish
+                setTimeout(() => {
+                    toast.remove();
+                }, 3500);
+            }
+
+            // Redeem funksiyasi
+            async function redeemCode() {
+                const code = document.getElementById('promoInput').value;
+                const token = localStorage.getItem('token'); // login token
+
+                if (!code) {
+                    showToast("Promokod kiriting", "error");
+                    return;
+                }
+
+                try {
+                    const res = await fetch('http://mcback.onrender.com/redeem', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': token
+                        },
+                        body: JSON.stringify({ code })
+                    });
+
+                    const data = await res.json();
+
+                    if (data.success) showToast(data.message, "success");
+                    else showToast(data.message, "error");
+                } catch (err) {
+                    console.error(err);
+                    showToast("Server bilan bog‘lanishda xatolik yuz berdi", "error");
+                }
+            }
+
+        </script>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UZB SMP | Rank</title>
+    <link rel="icon" type="image/x-icon" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+    <div class="header">
+      <div class="userinfo">
+        <span>User: <strong class="username"></strong></span>
+        <div id="coinr" class="coin-box">
+          <img src="gold.webp" class="coin-icon" alt="Coins">
+          <strong id="coins"></strong>
+
+        </div>
+        <button id="logoutr" class="logout" onclick="logout()"><img class="exit" src="logout.png" alt=""></button>
+
+      </div>
+      <div class="navbar">
+        <a href="games.html">Games</a>
+        <a href="home.html">Home</a>
+        <a href="rank.html">Rank</a>
+        <a href="shop.html">Shop</a>
+        <a href="coin_purchase.html">Coin sotib olish</a>
+        <button id="dfn" class="logout" onclick="logout()">Logout</button>
+      </div>
+      <div class="user-info">
+        <div id="coinboxremove" class="coin-box">
+          <img src="gold.webp" class="coin-icon" alt="Coins">
+          <strong id="coins2"></strong>
+
+        </div>
+
+      </div>
+    </div>
+        <div id="toast-container"></div>
+
+        <div class="rank-section">
+            <h2 class="rank-title">Server Ranklari</h2>
+            <div class="chiziq"></div><br>
+
+            <div class="rank-grid">
+
+                <!-- PLAYER -->
+                <div class="rank-card player">
+                    <h3>[PLAYER]</h3>
+                    <p class="rank-desc">Bepul rank (Default)</p>
+                    <ul>
+                        <li> &bull; /warp</li>
+                        <li> &bull; /tpa</li>
+                        <li> &bull; /home (1 ta)</li>
+                        <li> &bull; Oddiy chat</li>
+                    </ul>
+                    <span class="rank-price">BEPUL</span>
+                </div>
+
+                <!-- VIP -->
+                <div class="rank-card vip">
+                    <img class="viprank-img" src="vip.png" alt="">
+                    <p class="rank-desc">Boshlovchilar uchun</p>
+                    <ul>
+                        <li> &bull; /home (3 ta)</li>
+                        <li> &bull; Rangli chat</li>
+                        <li> &bull; /kit vip</li>
+                    </ul>
+                    <span class="viprank-price">50K Coin</span>
+                    <button class="buy-rank" onclick="buyVipRank()">Sotib olish</button>
+                </div>
+
+                <!-- MVP -->
+                <div class="rank-card mvp">
+                    <img class="viprank-img" src="mvp.png" alt="">
+                    <p class="rank-desc">O‘rtacha daraja</p>
+                    <ul>
+                        <li> &bull; /home (6 ta)</li>
+                        <li> &bull; /enderchest</li>
+                        <li> &bull; /kit mvp</li>
+                        <li> &bull; Maxsus chat rangi</li>
+                    </ul>
+                    <span class="rank-price">30 000 So'm</span>
+                    <a href="https://t.me/ikromjon_0055" target="_blank">
+                        <button class="buy-rank">Sotib olish</button>
+                    </a>
+                </div>
+
+                <!-- LEGEND -->
+                <div class="rank-card legend">
+                    <img class="viprank-img" src="legend.png" alt="">
+                    <p class="rank-desc">Eng yuqori rank</p>
+                    <ul>
+                        <li> &bull; /home (10 ta)</li>
+                        <li> &bull; /fly (cheklangan)</li>
+                        <li> &bull; /nick</li>
+                        <li> &bull; /kit legend</li>
+                    </ul>
+                    <span class="rank-price">50 000 So'm</span>
+                    <a href="https://t.me/ikromjon_0055" target="_blank">
+                        <button class="buy-rank">Sotib olish</button>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

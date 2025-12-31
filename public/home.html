@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UZB SMP | Bosh sahifa</title>
+  <link rel="icon" type="image/x-icon" href="logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="userinfo">
+        <span>User: <strong class="username"></strong></span>
+        <div id="coinr" class="coin-box">
+          <img src="gold.webp" class="coin-icon" alt="Coins">
+          <strong id="coins"></strong>
+
+        </div>
+        <button id="logoutr" class="logout" onclick="logout()"><img class="exit" src="logout.png" alt=""></button>
+
+      </div>
+      <div class="navbar">
+        <a href="games.html">Games</a>
+        <a href="home.html">Home</a>
+        <a href="rank.html">Rank</a>
+        <a href="shop.html">Shop</a>
+        <a href="coin_purchase.html">Coin sotib olish</a>
+        <button id="dfn" class="logout" onclick="logout()">Logout</button>
+      </div>
+      <div class="user-info">
+        <div id="coinboxremove" class="coin-box">
+          <img src="gold.webp" class="coin-icon" alt="Coins">
+          <strong id="coins2"></strong>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="title-smp">
+      <h1 class="gradient-text">UZB SMP</h1>
+      <h1>ga xush kelibsiz!</h1>
+      <h2>Java Edition</h2>
+    </div>
+    <img class="banner-img" src="uploads/banner.png" alt="Banner">
+    <div class="server-status">
+      <p id="response"></p>
+      <div class="status-indicator">
+        <span id="serverCircle" class="loading"></span>
+        <span id="serverHolati">Ma'lumot yuklanmoqda...</span>
+      </div>
+    </div>
+
+
+    <div class="banner-text">
+      <h2>Server haqida qisqacha ma'lumot</h2>
+      <p>UZB SMP - bu Minecraft o'yinining multiplayer serveri bo'lib, unda o'yinchilar turli xil faoliyatlar bilan
+        shug'ullanishlari mumkin. Serverda siz o'yin ichidagi iqtisodiyot, do'konlar, reyting tizimi va ko'plab boshqa
+        qiziqarli imkoniyatlardan foydalanishingiz mumkin. UZB SMP serveri o'zining do'stona jamoasi va faol o'yin
+        muhiti bilan ajralib turadi, bu esa o'yinchilarga yanada qiziqarli va maroqli tajriba taqdim etadi.</p>
+    </div>
+    <div class="chiziq"></div>
+    <div class="wipe">
+      <h2>Server wipe sanasi:</h2>
+      <h3>har fasilni 1 - kunidan</h3>
+    </div>
+    <div class="chiziq"></div>
+    <div class="voice-chat">
+      <img class="voice-chat-img" src="voice-chat.webp" alt="Voice Chat">
+      <div class="text-btn">
+        <p>Serverimizda o'yinchilar o'rtasida muloqotni osonlashtirish uchun Voice Chat funksiyasi mavjud. Bu imkoniyat
+          yordamida siz do'stlaringiz bilan real vaqt rejimida suhbatlashishingiz mumkin, bu esa jamoaviy o'yin
+          tajribasini yanada yaxshilaydi. Voice Chat orqali strategiyalarni muhokama qilish, yordam so'rash yoki
+          shunchaki suhbatlashish mumkin, bu esa o'yinni yanada qiziqarli va interaktiv qiladi.</p>
+        <a href="https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat" target="_blank"><button
+            class="download-voice-chat">o'rnatish</button></a>
+      </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+      const ServerStatus = document.getElementById('serverHolati');
+      const serverCircle = document.getElementById('serverCircle');
+
+      // Loading boshlanishida animatsiya qo‘shiladi
+      serverCircle.classList.add("loading");
+      ServerStatus.innerText = "Ma'lumot yuklanmoqda...";
+
+      fetch('http://mcback.onrender.com/mc-status')
+        .then(response => response.json())
+        .then(data => {
+          // Loading animatsiyasi tugadi va border yo'qoladi
+          serverCircle.classList.remove("loading");
+          serverCircle.style.border = "none"; // chiziqni olib tashlaymiz
+
+          // O'yinchilar soni
+          document.getElementById('response').innerText =
+            `Online o'yinchilar: ${data.playersOnline}/${data.playersMax}`;
+
+          // Server statusi va rang
+          if (data.online) {
+            ServerStatus.innerText = 'Server online';
+            serverCircle.style.backgroundColor = '#22c55e'; // yashil
+          } else {
+            ServerStatus.innerText = 'Server offline';
+            serverCircle.style.backgroundColor = '#ef4444'; // qizil
+          }
+        })
+        .catch(error => {
+          ServerStatus.innerText = 'Ma\'lumot olishda xato';
+          serverCircle.style.backgroundColor = 'gray';
+          console.error('Error fetching data:', error);
+        });
+      fetch('http://mcback.onrender.com/banner-url')
+        .then(res => res.json())
+        .then(data => {
+          document.querySelector('.banner-img').src = data.url;
+        });
+
+    </script>
+</body>
+
+</html>
