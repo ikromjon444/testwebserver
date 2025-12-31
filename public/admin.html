@@ -92,7 +92,7 @@ function showToast(message, type='success') {
 }
 async function fetchLeaderboard() {
   try {
-    const res = await fetch('http://mcback.onrender.com/leaderboard');
+    const res = await fetch('https://mcback.onrender.com/leaderboard');
     const data = await res.json();
     if(data.success) {
       const list = document.getElementById('leaderboard-list');
@@ -118,7 +118,7 @@ async function giveCoin() {
   if (!username || !amount) return showToast('Username va miqdor kerak', 'error');
 
   try {
-    const res = await fetch('http://mcback.onrender.com/givecoin', {
+    const res = await fetch('https://mcback.onrender.com/givecoin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': token },
       body: JSON.stringify({ username, amount })
@@ -135,7 +135,7 @@ async function giveRank() {
   if (!username || !rank) return showToast('Username va rank kerak', 'error');
 
   try {
-    const res = await fetch('http://mcback.onrender.com/give-rank', {
+    const res = await fetch('https://mcback.onrender.com/give-rank', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': token },
       body: JSON.stringify({ username, rank })
@@ -153,7 +153,7 @@ async function addPromo() {
   if (!code || !coins) return showToast('Kod va coin miqdori kerak', 'error');
 
   try {
-    const res = await fetch('http://mcback.onrender.com/admin/add-promo', {
+    const res = await fetch('https://mcback.onrender.com/admin/add-promo', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': token },
       body: JSON.stringify({ code, coins, expire_date })
@@ -170,11 +170,11 @@ async function addPromo() {
 // Foydalanuvchilar ro‘yxati
 async function loadUsers() {
   try {
-    const meRes = await fetch('http://mcback.onrender.com/me', { headers: { 'Authorization': token } });
+    const meRes = await fetch('https://mcback.onrender.com/me', { headers: { 'Authorization': token } });
     const meData = await meRes.json();
     if (!meData.success || meData.user.rank !== 'ADMIN') return showToast('Siz admin emassiz', 'error');
 
-    const usersRes = await fetch('http://mcback.onrender.com/admin/users', { headers: { 'Authorization': token } });
+    const usersRes = await fetch('https://mcback.onrender.com/admin/users', { headers: { 'Authorization': token } });
     const data = await usersRes.json();
     const list = document.getElementById('users-list');
     list.innerHTML = '';
@@ -194,7 +194,7 @@ async function uploadBanner() {
   formData.append('banner', fileInput.files[0]);
 
   try {
-    const res = await fetch('http://mcback.onrender.com/admin/upload-banner', {
+    const res = await fetch('https://mcback.onrender.com/admin/upload-banner', {
       method: 'POST',
       headers: { 'Authorization': token },
       body: formData
