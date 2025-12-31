@@ -32,7 +32,7 @@
         }
 
         try {
-            const res = await fetch('http://mcback.onrender.com/register', {
+            const res = await fetch('https://mcback.onrender.com/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
@@ -65,7 +65,7 @@
         }
 
         try {
-            const res = await fetch('http://mcback.onrender.com/login', {
+            const res = await fetch('https://mcback.onrender.com/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
@@ -83,7 +83,7 @@
             setToken(data.token);
 
             // Foydalanuvchi ma'lumotini olish
-            const userRes = await fetch('http://mcback.onrender.com/me', {
+            const userRes = await fetch('https://mcback.onrender.com/me', {
                 headers: { 'Authorization': data.token }
             });
             const userData = await userRes.json();
@@ -113,7 +113,7 @@
         const token = getToken();
         if (!token) return window.location.href = 'index.html';
 
-        fetch('http://mcback.onrender.com/me', {
+        fetch('https://mcback.onrender.com/me', {
             headers: { 'Authorization': token }
         })
             .then(res => res.json())
@@ -428,7 +428,7 @@ function startGame() {
         gameTimeout = null;
 
         // Serverga yuborish
-        await fetch('http://mcback.onrender.com/play-game', {
+        await fetch('https://mcback.onrender.com/play-game', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': token },
             body: JSON.stringify({ coinsEarned: coinsCaught })
@@ -470,7 +470,7 @@ function startGame() {
         }
 
         try {
-            const res = await fetch('http://mcback.onrender.com/buy-rank/vip', {
+            const res = await fetch('https://mcback.onrender.com/buy-rank/vip', {
                 method: 'POST',
                 headers: {
                     'Authorization': token,
