@@ -134,7 +134,7 @@
             }
             async function fetchLeaderboard() {
                 try {
-                    const res = await fetch('http://mcback.onrender.com/leaderboard');
+                    const res = await fetch('https://mcback.onrender.com/leaderboard');
                     const data = await res.json();
                     if (data.success) {
                         const list = document.getElementById('leaderboard-list');
@@ -161,7 +161,7 @@
                 if (!code) return alert("Promokod kiriting");
 
                 try {
-                    const res = await fetch('http://mcback.onrender.com/redeem', {
+                    const res = await fetch('https://mcback.onrender.com/redeem', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -205,7 +205,7 @@
                 }
 
                 try {
-                    const res = await fetch('http://mcback.onrender.com/redeem', {
+                    const res = await fetch('https://mcback.onrender.com/redeem', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
