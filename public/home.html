@@ -87,7 +87,7 @@
       serverCircle.classList.add("loading");
       ServerStatus.innerText = "Ma'lumot yuklanmoqda...";
 
-      fetch('http://mcback.onrender.com/mc-status')
+      fetch('https://mcback.onrender.com/mc-status')
         .then(response => response.json())
         .then(data => {
           // Loading animatsiyasi tugadi va border yo'qoladi
@@ -112,7 +112,7 @@
           serverCircle.style.backgroundColor = 'gray';
           console.error('Error fetching data:', error);
         });
-      fetch('http://mcback.onrender.com/banner-url')
+      fetch('https://mcback.onrender.com/banner-url')
         .then(res => res.json())
         .then(data => {
           document.querySelector('.banner-img').src = data.url;
