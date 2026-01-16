@@ -96,7 +96,7 @@ let leaderboardData = []; // barcha foydalanuvchilar
 // Fetch leaderboard va leaderboardData ga saqlash
 async function fetchLeaderboard() {
     try {
-        const res = await fetch('http://localhost:3000/leaderboard');
+        const res = await fetch('https://uzbsmpback.onrender.com/leaderboard');
         const data = await res.json();
         if (data.success) {
             leaderboardData = data.leaderboard; // faqat ma’lumotni saqlaymiz
@@ -168,5 +168,6 @@ setInterval(fetchLeaderboard, 5000);
     </script>
     <script src="script.js"></script>
 </body>
+
 
 </html>
