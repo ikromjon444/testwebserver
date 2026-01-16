@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UZB SMP | Leaderboard</title>
+    <link rel="icon" type="image/x-icon" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        #leaderboard-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.coins {
+  color: #f59e0b;
+  font-weight: bold;
+}
+
+#pagination {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+#pagination button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+    </style>
+</head>
+
+<body>
+   <div class="container">
+    <div class="header">
+      <div class="userinfo">
+        <span>ᴜꜱᴇʀ: <strong class="username"></strong></span>
+        <div id="coinr" class="coin-box">
+          <img src="gold.webp" class="coin-icon" alt="Coins">
+          <strong id="coins"></strong>
+
+        </div>
+        <button id="logoutr" class="logout" onclick="logout()"><img class="exit" src="logout.png" alt=""></button>
+
+      </div>
+      <div class="navbar">
+        <a href="games.html">ɢᴀᴍᴇꜱ</a>
+        <a href="home.html">ʜᴏᴍᴇ</a>
+        <a href="buytoken.html">ᴛʀᴀᴅɪɴɢ</a>
+        <a href="rank.html">ʀᴀɴᴋ</a>
+        <a href="shop.html">ꜱʜᴏᴘ</a>
+        <a href="event.html">ᴇᴠᴇɴᴛ</a>
+        <a href="leaderboard.html">ʟᴇᴀᴅᴇʀʙᴏᴀʀᴅ</a>
+        <a href="coin_purchase.html">ᴄᴏɪɴ</a>
+        <button id="dfn" class="logout" onclick="logout()">ᴄʜɪǫɪꜱʜ</button>
+      </div>
+      <div class="user-info">
+        <div id="coinboxremove" class="coin-box">
+          <img src="gold.webp" class="coin-icon" alt="Coins">
+          <strong id="coins2"></strong>
+
+        </div>
+
+      </div>
+    </div>
+<div id="leaderboard">
+    <h2>Top 100ta Boy o'yinchilar</h2>
+    <ul id="leaderboard-list">
+        <!-- foydalanuvchilar shu yerga qo'shiladi -->
+    </ul>
+
+    <div id="pagination">
+        <button id="prevPage">⟨ Oldingi</button>
+        <span id="pageInfo">1 / 1</span>
+        <button id="nextPage">Keyingi ⟩</button>
+    </div>
+</div>
+
+
+  </div>
+    <script>
+const itemsPerPage = 10;
+let currentPage = 1;
+let leaderboardData = []; // barcha foydalanuvchilar
+
+// Fetch leaderboard va leaderboardData ga saqlash
+async function fetchLeaderboard() {
+    try {
+        const res = await fetch('http://localhost:3000/leaderboard');
+        const data = await res.json();
+        if (data.success) {
+            leaderboardData = data.leaderboard; // faqat ma’lumotni saqlaymiz
+            // agar currentPage dan ortiq bo‘lsa sahifani 1 ga qaytaramiz
+            const totalPages = Math.ceil(leaderboardData.length / itemsPerPage);
+            if (currentPage > totalPages) currentPage = 1;
+
+            renderPage();
+        }
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+// Sahifani render qilish
+function renderPage() {
+    const list = document.getElementById('leaderboard-list');
+    list.innerHTML = '';
+
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const pageData = leaderboardData.slice(start, end);
+
+    pageData.forEach((user, index) => {
+        const li = document.createElement('li');
+
+        const userSpan = document.createElement('span');
+        userSpan.className = 'username';
+        userSpan.textContent = `${start + index + 1}. ${user.username}`;
+
+        const coinsSpan = document.createElement('span');
+        coinsSpan.className = 'coins';
+        coinsSpan.textContent = `${formatCoins(user.coins)} coins`;
+
+        li.appendChild(userSpan);
+        li.appendChild(coinsSpan);
+        list.appendChild(li);
+    });
+
+    // Pagination info
+    const totalPages = Math.ceil(leaderboardData.length / itemsPerPage);
+    document.getElementById('pageInfo').textContent = `${currentPage} / ${totalPages}`;
+
+    // Tugmalar holati
+    document.getElementById('prevPage').disabled = currentPage === 1;
+    document.getElementById('nextPage').disabled = currentPage === totalPages;
+}
+
+// Pagination tugmalari — faqat bir marta qo‘shiladi
+document.getElementById('prevPage').addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--;
+        renderPage();
+    }
+});
+
+document.getElementById('nextPage').addEventListener('click', () => {
+    const totalPages = Math.ceil(leaderboardData.length / itemsPerPage);
+    if (currentPage < totalPages) {
+        currentPage++;
+        renderPage();
+    }
+});
+
+// Dastlabki fetch va har 5 soniyada yangilash
+fetchLeaderboard();
+setInterval(fetchLeaderboard, 5000);
+
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>

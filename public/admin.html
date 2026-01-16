@@ -68,6 +68,20 @@
     <button onclick="loadUsers()">Yuklash</button>
     <ul id="users-list"></ul>
   </div>
+<div class="section">
+  <input type="text" id="ban-username" placeholder="Username">
+  <input type="number" id="ban-duration" placeholder="Miqdor">
+  <select id="ban-unit">
+    <option value="seconds">Sekund</option>
+    <option value="hours">Soat</option>
+    <option value="days">Kun</option>
+    <option value="months">Oy</option>
+  </select>
+  <button onclick="banUser()">Ban qilish</button>
+  <button onclick="unbanUser()">Unban qilish</button>
+</div>
+
+
    <div id="leaderboard">
   <h2>Leaderboard</h2>
   <ul id="leaderboard-list"></ul>
@@ -76,8 +90,8 @@
 
   <div id="toast-container"></div>
 
+
 <script>
-    
 const token = localStorage.getItem('token');
 if (!token) window.location.href = 'index.html';
 
@@ -90,44 +104,34 @@ function showToast(message, type='success') {
   container.appendChild(toast);
   setTimeout(() => toast.remove(), 3500);
 }
-async function fetchLeaderboard() {
-  try {
-    const res = await fetch('https://mcback.onrender.com/leaderboard');
-    const data = await res.json();
-    if(data.success) {
-      const list = document.getElementById('leaderboard-list');
-      list.innerHTML = '';
-      data.leaderboard.forEach((user, index) => {
-        const li = document.createElement('li');
-        li.textContent = `${index+1}. ${user.username} - ${user.coins} coins (${user.rank})`;
-        list.appendChild(li);
-      });
-    }
-  } catch (err) {
-    console.error(err);
-  }
-}
 
-// Har 5 soniyada yangilash
-fetchLeaderboard();
-setInterval(fetchLeaderboard, 5000);
 // Foydalanuvchiga coin berish
 async function giveCoin() {
-  const username = document.getElementById('coin-username').value;
-  const amount = parseInt(document.getElementById('coin-amount').value);
-  if (!username || !amount) return showToast('Username va miqdor kerak', 'error');
+  const username = document.getElementById('coin-username').value.trim();
+  const coins = Number(document.getElementById('coin-amount').value);
+
+  if (!username || !coins || coins <= 0) {
+    return showToast('Username va to‘g‘ri coin miqdori kerak', 'error');
+  }
 
   try {
-    const res = await fetch('https://mcback.onrender.com/givecoin', {
+    const res = await fetch('http://localhost:3000/givecoin', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': token },
-      body: JSON.stringify({ username, amount })
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      body: JSON.stringify({ username, coins }) // 👈 MUHIM JOY
     });
+
     const data = await res.json();
     showToast(data.message, data.success ? 'success' : 'error');
-  } catch (err) { console.error(err); showToast('Xatolik yuz berdi', 'error'); }
-}
 
+  } catch (err) {
+    console.error(err);
+    showToast('Server bilan aloqa xatosi', 'error');
+  }
+}
 // Foydalanuvchiga rank berish
 async function giveRank() {
   const username = document.getElementById('rank-username').value;
@@ -135,7 +139,7 @@ async function giveRank() {
   if (!username || !rank) return showToast('Username va rank kerak', 'error');
 
   try {
-    const res = await fetch('https://mcback.onrender.com/give-rank', {
+    const res = await fetch('http://localhost:3000/give-rank', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': token },
       body: JSON.stringify({ username, rank })
@@ -148,12 +152,12 @@ async function giveRank() {
 // Promokod qo‘shish
 async function addPromo() {
   const code = document.getElementById('promo-code').value;
-  const coins = parseInt(document.getElementById('promo-coins').value);
+  const coins = Number(document.getElementById('promo-coins').value);
   const expire_date = document.getElementById('promo-expire').value || null;
   if (!code || !coins) return showToast('Kod va coin miqdori kerak', 'error');
 
   try {
-    const res = await fetch('https://mcback.onrender.com/admin/add-promo', {
+    const res = await fetch('http://localhost:3000/admin/add-promo', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': token },
       body: JSON.stringify({ code, coins, expire_date })
@@ -166,26 +170,23 @@ async function addPromo() {
   }
 }
 
-
 // Foydalanuvchilar ro‘yxati
 async function loadUsers() {
   try {
-    const meRes = await fetch('https://mcback.onrender.com/me', { headers: { 'Authorization': token } });
-    const meData = await meRes.json();
-    if (!meData.success || meData.user.rank !== 'ADMIN') return showToast('Siz admin emassiz', 'error');
-
-    const usersRes = await fetch('https://mcback.onrender.com/admin/users', { headers: { 'Authorization': token } });
+    const usersRes = await fetch('http://localhost:3000/admin/users', { headers: { 'Authorization': token } });
     const data = await usersRes.json();
     const list = document.getElementById('users-list');
     list.innerHTML = '';
     data.users.forEach(u => {
       const li = document.createElement('li');
-      li.innerText = `${u.username} - Rank: ${u.rank} - Coins: ${u.coins}`;
+      li.innerText = `${u.username} - Rank: ${u.rank} - Coins: ${u.coins}`; // aniq raqam
       list.appendChild(li);
     });
     showToast('Foydalanuvchilar yuklandi', 'success');
   } catch (err) { console.error(err); showToast('Xatolik yuz berdi', 'error'); }
 }
+
+// Banner yuklash
 async function uploadBanner() {
   const fileInput = document.getElementById('banner-file');
   if (!fileInput.files.length) return showToast('Rasm tanlanmadi', 'error');
@@ -194,7 +195,7 @@ async function uploadBanner() {
   formData.append('banner', fileInput.files[0]);
 
   try {
-    const res = await fetch('https://mcback.onrender.com/admin/upload-banner', {
+    const res = await fetch('http://localhost:3000/admin/upload-banner', {
       method: 'POST',
       headers: { 'Authorization': token },
       body: formData
@@ -208,7 +209,12 @@ async function uploadBanner() {
 }
 
 // Logout
-function logout() { localStorage.removeItem('token'); window.location.href='index.html'; }
+function logout() {
+  localStorage.removeItem('token');
+  window.location.href='index.html';
+}
 </script>
+
+<script src="script.js"></script>
 </body>
 </html>

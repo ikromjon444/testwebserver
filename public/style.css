@@ -75,6 +75,7 @@ button.logout {
     font-size: 1em;
     cursor: pointer;
     transition: 0.2s;
+    color: white;
 }
 
 button.logout:hover {
@@ -117,7 +118,8 @@ button.logout:hover {
     background-image: url('bg.jpg');
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    touch-action: none; /* mobilda scrollni oldini oladi */
+    touch-action: none;
+    /* mobilda scrollni oldini oladi */
 }
 
 #basket {
@@ -340,6 +342,7 @@ button.logout:hover {
     color: #fff;
     font-size: 1em;
     outline: none;
+    margin-left: 5px;
 }
 
 .login-button {
@@ -523,16 +526,23 @@ button.logout:hover {
 .rank-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
+    gap: 180px;
 }
 
 .rank-card {
-    background: #1e293b;
+    background-color: rgba(255, 255, 255, 0.041);
+
+    backdrop-filter: blur(10px);
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     transition: 0.3s;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    gap: 15px;
 }
 
 .rank-card h3 {
@@ -542,17 +552,20 @@ button.logout:hover {
 .rank-card ul {
     list-style: none;
     padding: 0;
-    margin: 15px 0;
+    text-align: start;
+    text-indent: 25px;
+    font-family: "Pixelify Sans", sans-serif;
+    color: whitesmoke;
 }
 
-.rank-card ul li {
-    margin: 6px 0;
-}
+
 
 .rank-price {
     display: block;
     font-weight: bold;
-    margin-top: 10px;
+    color:
+        rgb(59, 130, 246);
+    font-size: 25px;
 }
 
 .buy-rank {
@@ -563,21 +576,66 @@ button.logout:hover {
     cursor: pointer;
 }
 
-/* Ranglar */
-.player {
-    border-top: 4px solid gray;
-}
 
 .vip {
+    border-top: 4px solid #20f868;
+}
+
+.rank-vip {
+    color: #20f868;
+    font-weight: 800;
+    font-size: 25px;
+}
+
+
+.elite {
     border-top: 4px solid #00bfff;
+}
+
+.rank-elite {
+    color: #00bfff;
+    font-weight: 800;
+    font-size: 25px;
 }
 
 .mvp {
     border-top: 4px solid #b84cff;
 }
 
+.rank-mvp {
+    color: #b84cff;
+    font-weight: 800;
+    font-size: 25px;
+}
+
 .legend {
     border-top: 4px solid gold;
+}
+
+.rank-legend {
+    color: gold;
+    font-weight: 800;
+    font-size: 25px;
+}
+
+.mythic1 {
+    border-top: 4px solid goldenrod;
+}
+
+.uzb {
+    border-top: 4px solid #5555ff;
+}
+
+.rank-uzb {
+    color: #5555ff;
+    font-weight: 800;
+    font-size: 25px;
+}
+
+.rank-mythic {
+    color: goldenrod;
+    font-weight: 800;
+    font-size: 25px;
 }
 
 .buy-rank {
@@ -596,6 +654,10 @@ button.logout:hover {
     top: 20px;
     right: 20px;
     z-index: 9999;
+}
+
+.mythic1 {
+    box-shadow: 0 0 25px goldenrod;
 }
 
 .toast {
@@ -833,22 +895,12 @@ canvas {
     margin-top: 30px;
 }
 
-.adsterra-banner {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-
-}
 
 .viprank-price {
     display: block;
     font-weight: bold;
     color: gold;
+    font-size: 25px;
 }
 
 .section-title {
@@ -858,8 +910,8 @@ canvas {
 }
 
 .viprank-img {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
 }
 
 .shop-title {
@@ -867,14 +919,79 @@ canvas {
     font-size: 25px;
 }
 
+.buy-rank {
+    padding: 10px 30px;
+    border-radius: 13px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+}
+
 .buy-rank:hover {
-    color: white;
     background-color: #22c55e;
 }
 
 #shop-title-name {
     color: #0072ff;
     text-decoration: underline;
+}
+
+/* Mythic rank */
+.rank-card.mythic {
+    position: relative;
+    border: 2px solid #FFD700;
+    border-radius: 12px;
+    overflow: visible;
+    z-index: 1;
+}
+
+/* Jonli olov effekti: tashqi glow */
+.rank-card.mythic::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 160%;
+    height: 160%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, rgba(255, 69, 0, 0.3) 50%, rgba(255, 69, 0, 0) 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    z-index: -1;
+    animation: flamePulse 1.5s infinite ease-in-out;
+    filter: blur(15px);
+}
+
+/* Flame animation */
+@keyframes flamePulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+        box-shadow: 0 0 10px #FFD700, 0 0 20px #FF4500, 0 0 30px #FF8C00;
+    }
+
+    25% {
+        transform: translate(-48%, -52%) scale(1.1);
+        opacity: 0.5;
+        box-shadow: 0 0 15px #FFD700, 0 0 25px #FF4500, 0 0 35px #FF8C00;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.7;
+        box-shadow: 0 0 20px #FFD700, 0 0 30px #FF4500, 0 0 40px #FF8C00;
+    }
+
+    75% {
+        transform: translate(-52%, -48%) scale(1.1);
+        opacity: 0.5;
+        box-shadow: 0 0 15px #FFD700, 0 0 25px #FF4500, 0 0 35px #FF8C00;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+        box-shadow: 0 0 10px #FFD700, 0 0 20px #FF4500, 0 0 30px #FF8C00;
+    }
 }
 
 .server-status {
@@ -967,7 +1084,7 @@ canvas {
 
 .promo-input {
     padding: 10px 20px;
-    background-color:#111827;
+    background-color: #111827;
     color: white;
 }
 
@@ -983,11 +1100,25 @@ canvas {
     color: white;
 }
 
+.banner-rasm {
+    width: 100%;
+    height: 600px;
+}
+
+.banner-img {
+    width: 100%;
+    height: 100%;
+}
+
 /* ===== Media Query for Mobile ===== */
 @media (max-width: 768px) {
     .container {
         width: 95%;
         padding: 10px;
+    }
+
+    .banner-rasm {
+        display: none;
     }
 
     #coinr {
@@ -1046,9 +1177,9 @@ canvas {
     }
 
     .server-status {
-        width: 60%;
-        height: auto;
-        padding: 20px;
+        width: 90%;
+        height: 50%;
+        padding: 70px 0;
         font-size: 18px;
     }
 
@@ -1097,6 +1228,10 @@ canvas {
     .games-section {
         flex-direction: column;
         gap: 20px;
+    }
+
+    .server-status {
+        height: 700px;
     }
 
     .game1,
@@ -1158,17 +1293,21 @@ canvas {
     .server-status {
         height: 100px;
     }
-    .coin-amount-box{
+
+    .coin-amount-box {
         width: 95%;
     }
-    #game-area{
+
+    #game-area {
         background-size: 100% 100%;
         height: 200px;
     }
-    #basket{
+
+    #basket {
         width: 100px;
     }
 }
+
 /* Leaderboard container */
 #leaderboard {
     background-color: #1e1e2f;
@@ -1178,7 +1317,7 @@ canvas {
     max-width: 300px;
     margin: 30px auto;
     color: #fff;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     font-family: 'Arial', sans-serif;
 }
 
@@ -1187,7 +1326,8 @@ canvas {
     text-align: center;
     margin-bottom: 15px;
     font-size: 24px;
-    color: #ffd700; /* oltin rang */
+    color: #ffd700;
+    /* oltin rang */
     text-shadow: 1px 1px 4px #000;
 }
 
@@ -1218,7 +1358,8 @@ canvas {
 
 /* Rank number highlight */
 #leaderboard-list {
-    counter-reset: rank; /* start counter */
+    counter-reset: rank;
+    /* start counter */
 }
 
 
@@ -1230,4 +1371,111 @@ canvas {
     padding: 4px 8px;
     border-radius: 6px;
     font-weight: bold;
+}
+
+.card-rank {
+    background-color: #0f172aef;
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+
+    width: 90%;
+    min-height: 250px;
+    /* minimal balandlik */
+    height: auto;
+    /* kontentga qarab o‘sadi */
+
+    padding: 20px 10px;
+    color: white;
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* elementlar orasida masofa */
+}
+
+.rank-chiziq {
+    width: 90%;
+    height: 1px;
+    margin: 10px auto;
+    border-bottom: 2px solid;
+
+    backdrop-filter: blur(10px);
+    border: 1px solid #334155;
+
+    border-radius: 15px;
+
+    /* Maskni faqat o'ng tomonga yo'naltiramiz */
+    -webkit-mask-image: linear-gradient(to right,
+            black 70%,
+            /* 70% gacha butunlay ko'rinib turadi */
+            transparent 100%
+            /* 70% dan 100% gacha hiralashib yo'qoladi */
+        );
+    mask-image: linear-gradient(to right,
+            black 70%,
+            transparent 100%);
+}
+
+.youtuber-card {
+    width: 100%;
+    max-width: 900px;        /* katta ekranlarda chiroyli */
+    margin: 0 auto;
+
+    background-color: #111827;
+    box-shadow: 0 0 25px black;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+
+    padding: 30px 15px;     /* responsiveda juda muhim */
+}
+.info {
+    background-color: #1e293b;
+    border-radius: 20px;
+
+    width: 100%;            /* mobil uchun */
+    max-width: 600px;       /* desktop uchun */
+
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    cursor: pointer;
+}
+.ariza {
+    padding: 12px 45px;
+    background-color: brown;
+    border: none;
+    border-radius: 8px;
+    color: rgb(202, 202, 202);
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 0 5px black;
+}
+.yt {
+    margin-top: 50px;
+    padding: 0 15px; /* telefonlarda yon tomondan chiqib ketmasin */
+}
+@media (max-width: 600px) {
+    .youtuber-card h1 {
+        font-size: 22px;
+        text-align: center;
+    }
+.youtuber-card{
+            width: 90%;
+}
+    .info {
+        padding: 15px;
+    }
+    .info li {
+        font-size: 15px;
+    }
 }

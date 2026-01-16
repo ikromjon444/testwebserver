@@ -7,38 +7,50 @@
     <title>UZB SMP | Rank</title>
     <link rel="icon" type="image/x-icon" href="logo.png">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+        li {
+            font-size: 18px;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
-    <div class="header">
-      <div class="userinfo">
-        <span>User: <strong class="username"></strong></span>
-        <div id="coinr" class="coin-box">
-          <img src="gold.webp" class="coin-icon" alt="Coins">
-          <strong id="coins"></strong>
+        <div class="header">
+            <div class="userinfo">
+                <span>ᴜꜱᴇʀ: <strong class="username"></strong></span>
+                <div id="coinr" class="coin-box">
+                    <img src="gold.webp" class="coin-icon" alt="Coins">
+                    <strong id="coins"></strong>
 
+                </div>
+                <button id="logoutr" class="logout" onclick="logout()"><img class="exit" src="logout.png"
+                        alt=""></button>
+
+            </div>
+            <div class="navbar">
+                <a href="games.html">ɢᴀᴍᴇꜱ</a>
+                <a href="home.html">ʜᴏᴍᴇ</a>
+                <a href="buytoken.html">ᴛʀᴀᴅɪɴɢ</a>
+                <a href="rank.html">ʀᴀɴᴋ</a>
+                <a href="shop.html">ꜱʜᴏᴘ</a>
+                <a href="event.html">ᴇᴠᴇɴᴛ</a>
+                <a href="leaderboard.html">ʟᴇᴀᴅᴇʀʙᴏᴀʀᴅ</a>
+                <a href="coin_purchase.html">ᴄᴏɪɴ</a>
+                <button id="dfn" class="logout" onclick="logout()">ᴄʜɪǫɪꜱʜ</button>
+            </div>
+            <div class="user-info">
+                <div id="coinboxremove" class="coin-box">
+                    <img src="gold.webp" class="coin-icon" alt="Coins">
+                    <strong id="coins2"></strong>
+
+                </div>
+
+            </div>
         </div>
-        <button id="logoutr" class="logout" onclick="logout()"><img class="exit" src="logout.png" alt=""></button>
-
-      </div>
-      <div class="navbar">
-        <a href="games.html">Games</a>
-        <a href="home.html">Home</a>
-        <a href="rank.html">Rank</a>
-        <a href="shop.html">Shop</a>
-        <a href="coin_purchase.html">Coin sotib olish</a>
-        <button id="dfn" class="logout" onclick="logout()">Logout</button>
-      </div>
-      <div class="user-info">
-        <div id="coinboxremove" class="coin-box">
-          <img src="gold.webp" class="coin-icon" alt="Coins">
-          <strong id="coins2"></strong>
-
-        </div>
-
-      </div>
-    </div>
         <div id="toast-container"></div>
 
         <div class="rank-section">
@@ -46,68 +58,181 @@
             <div class="chiziq"></div><br>
 
             <div class="rank-grid">
-
-                <!-- PLAYER -->
-                <div class="rank-card player">
-                    <h3>[PLAYER]</h3>
-                    <p class="rank-desc">Bepul rank (Default)</p>
-                    <ul>
-                        <li> &bull; /warp</li>
-                        <li> &bull; /tpa</li>
-                        <li> &bull; /home (1 ta)</li>
-                        <li> &bull; Oddiy chat</li>
-                    </ul>
-                    <span class="rank-price">BEPUL</span>
-                </div>
-
                 <!-- VIP -->
                 <div class="rank-card vip">
                     <img class="viprank-img" src="vip.png" alt="">
-                    <p class="rank-desc">Boshlovchilar uchun</p>
-                    <ul>
-                        <li> &bull; /home (3 ta)</li>
-                        <li> &bull; Rangli chat</li>
-                        <li> &bull; /kit vip</li>
-                    </ul>
-                    <span class="viprank-price">50K Coin</span>
+                    <p class="rank-vip">[VIP]</p>
+                    <div class="card-rank">
+
+                        <ul>
+                            <div class="rank-chiziq"></div>
+                            <li>/home (3 ta)</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/kit vip</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/wb</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/ec</li>
+                            <div class="rank-chiziq"></div>
+                    </div>
+                    <span class="viprank-price">50K Coin/∞</span>
                     <button class="buy-rank" onclick="buyVipRank()">Sotib olish</button>
                 </div>
 
+                <div class="rank-card elite">
+                    <img class="viprank-img" src="elite.png" alt="Elite Rank">
+                    <p class="rank-elite">[ELITE]</p>
+                    <div class="card-rank">
+
+                        <ul>
+                            <div class="rank-chiziq"></div>
+                            <li>/home (4 ta)</li>
+                            <div class="rank-chiziq"></div>
+                            <li>Rangli chat</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/kit elite</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/anvil</li>
+                            <div class="rank-chiziq"></div>
+
+                    </div>
+                    <span class="rank-price">12 000 So'm/∞</span>
+                    <a href="https://t.me/ikromjon_0055" target="_blank">
+                        <button class="buy-rank">Sotib olish</button>
+                    </a>
+                </div>
                 <!-- MVP -->
                 <div class="rank-card mvp">
                     <img class="viprank-img" src="mvp.png" alt="">
-                    <p class="rank-desc">O‘rtacha daraja</p>
-                    <ul>
-                        <li> &bull; /home (6 ta)</li>
-                        <li> &bull; /enderchest</li>
-                        <li> &bull; /kit mvp</li>
-                        <li> &bull; Maxsus chat rangi</li>
-                    </ul>
-                    <span class="rank-price">30 000 So'm</span>
+                    <p class="rank-mvp">[MVP]</p>
+                    <div class="card-rank">
+                        <ul>
+                            <div class="rank-chiziq"></div>
+                            <li>/home (6 ta)</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/kit mvp</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/time set day</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/weather</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/near</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/heal</li>
+                            <div class="rank-chiziq"></div>
+                    </div>
+                    <span class="rank-price">26 000 So'm/∞</span>
                     <a href="https://t.me/ikromjon_0055" target="_blank">
                         <button class="buy-rank">Sotib olish</button>
                     </a>
                 </div>
-
                 <!-- LEGEND -->
                 <div class="rank-card legend">
                     <img class="viprank-img" src="legend.png" alt="">
-                    <p class="rank-desc">Eng yuqori rank</p>
-                    <ul>
-                        <li> &bull; /home (10 ta)</li>
-                        <li> &bull; /fly (cheklangan)</li>
-                        <li> &bull; /nick</li>
-                        <li> &bull; /kit legend</li>
-                    </ul>
-                    <span class="rank-price">50 000 So'm</span>
+                    <p class="rank-legend">[LEGEND]</p>
+                    <div class="card-rank">
+
+                        <ul>
+                            <div class="rank-chiziq"></div>
+                            <li>/home (8 ta)</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/kit legend</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/jump</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/clear</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/afk</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/feed</li>
+                            <div class="rank-chiziq"></div>
+
+                    </div>
+                    <span class="rank-price">48 000 So'm/∞</span>
                     <a href="https://t.me/ikromjon_0055" target="_blank">
                         <button class="buy-rank">Sotib olish</button>
                     </a>
                 </div>
+                <div class="rank-card uzb">
+                    <img class="viprank-img" src="uzb.png" alt="">
+                    <p class="rank-uzb">[UZB]</p>
+                    <div class="card-rank">
 
+                        <ul>
+                            <div class="rank-chiziq"></div>
+                            <li>/home (10 ta)</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/kit uzb</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/mute</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/speed</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/back</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/unmute</li>
+                            <div class="rank-chiziq"></div>
+
+                    </div>
+                    <span class="rank-price">59 000 So'm/∞</span>
+                    <a href="https://t.me/ikromjon_0055" target="_blank">
+                        <button class="buy-rank">Sotib olish</button>
+                    </a>
+                </div>
+                <div class="rank-card mythic1">
+                    <img class="viprank-img" src="mythic.png" alt="Mythic Rank">
+                    <p class="rank-mythic">[MYTHIC]</p>
+                    <div class="card-rank">
+
+                        <ul>
+                            <div class="rank-chiziq"></div>
+                            <li>/home (16 ta)</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/kit mythic</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/repair</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/ban</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/unban</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/fly</li>
+                            <div class="rank-chiziq"></div>
+                            <li>/prefix</li>
+                            <div class="rank-chiziq"></div>
+
+                    </div>
+                    <span class="rank-price">80 000 So'm/∞</span>
+                    <a href="https://t.me/ikromjon_0055" target="_blank">
+                        <button class="buy-rank">Sotib olish</button>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <div class="chiziq"></div>
+        <h1 style="color: brown;">YOUTUBER</h1>
+        <div class="yt">
+            <div class="youtuber-card">
+                <h1>Youtuber Bo'lish Qoidalari:</h1>
+                <div class="info">
+                    <ul>
+                        <li>YouTube kanalida 300+ obunachilar</li>
+                        <li>Kanal "UZBSMP" server videolari bilan ko'tarilgan bo'lishi kerak</li>
+                        <li>Har hafta kamida 1 dona video joylashi kerak</li>
+                    </ul>
+                </div>
+                <div class="info">
+                    <h1 style="color: crimson; font-size: 25px;">YouTuber rank = UZB ranki</h1>
+                </div>
+                <div class="info">
+                    <h1>Tayyor bo'lsangiz Ariza bering:</h1>
+                    <a href="https://t.me/ikromjon_0055" target="_blank">
+                    <button class="ariza">Ariza</button>
+                    </a>
+                </div>
             </div>
         </div>
-
     </div>
     <script src="script.js"></script>
 </body>

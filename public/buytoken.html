@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UZB SMP | Trading</title>
+    <link rel="icon" type="image/x-icon" href="logo.png">
+  <style>
+    body {
+      background: #0d0d0d;
+      color: #eee;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .gradient-text {
+      text-align: center;
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      background: linear-gradient(90deg, #22c55e, #4ade80);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .user-info {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      background: linear-gradient(145deg, #1c1c1c, #111);
+      padding: 18px 25px;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .5);
+      margin-bottom: 25px;
+    }
+
+    .user-info p {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .user-info strong {
+      color: #22c55e;
+    }
+
+    @media (max-width: 700px) {
+      .user-info {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    .market-box {
+      background: radial-gradient(circle at top, #1f1f1f, #0f0f0f);
+      border-radius: 16px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: inset 0 0 0 1px rgba(34, 197, 94, .2),
+        0 10px 30px rgba(0, 0, 0, .6);
+      margin-bottom: 15px;
+    }
+
+    .market-box p {
+      margin: 5px 0;
+      opacity: .8;
+    }
+
+    .market-box h2 {
+      margin: 10px 0;
+      font-size: 32px;
+    }
+
+    #tokenPrice {
+      color: #22c55e;
+      text-shadow: 0 0 10px rgba(34, 197, 94, .5);
+    }
+
+    .result {
+      margin: 15px 0 30px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-align: center;
+      min-height: 20px;
+    }
+
+    input {
+      background: #0f0f0f;
+      border: 1px solid #222;
+      color: #fff;
+      padding: 0 12px;
+      font-size: 14px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, .5);
+    }
+
+    .buybtn,
+    .sellbtn {
+      width: 100%;
+      height: 40px;
+      margin-top: 10px;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .buybtn:active,
+    .sellbtn:active {
+      transform: scale(.97);
+    }
+
+    /* CHART + PANEL LAYOUT */
+    .chart-wrapper {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 25px;
+      max-width: 1200px;
+      margin: 40px auto;
+    }
+
+    /* CHART */
+    .chart-box {
+      background: #111;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, .6);
+    }
+
+    .chart-box canvas {
+      width: 100% !important;
+      height: 360px !important;
+    }
+
+    /* TRADE PANEL */
+    .trade-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* BUY / SELL CARD */
+    .trade-card {
+      background: linear-gradient(145deg, #1f1f1f, #121212);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .5);
+    }
+
+    .trade-card h4 {
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .trade-card.buy h4 {
+      color: #22c55e;
+    }
+
+    .trade-card.sell h4 {
+      color: #ef4444;
+    }
+
+    .trade-card input {
+      width: 90%;
+      height: 36px;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+
+
+/* ===== HEADER UMUMIY ===== */
+.header {
+    display: flex;
+    justify-content: space-between; /* elementlarni bo‘shliq bilan tarqatadi */
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #1e293b;
+    border-bottom: 2px solid #22c55e;
+    border-radius: 0 0 12px 12px;
+    flex-wrap: wrap; /* responsive uchun */
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+/* ===== USERINFO (LEFT SIDE) ===== */
+.userinfo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* USERNAME */
+.userinfo span {
+    font-size: 0.95em;
+    font-weight: bold;
+    color: #fff;
+}
+
+.userinfo .username {
+    color: #22c55e;
+}
+
+/* COIN BOX */
+.coin-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    background: #0f172a;
+    border: 1px solid #22c55e;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 1em;
+    color: #fff;
+}
+
+.coin-box img.coin-icon {
+    width: 25px;
+    height: 25px;
+    image-rendering: pixelated;
+}
+
+/* LOGOUT BUTTON */
+button.logout {
+    background: #ef4444;
+    border: none;
+    border-radius: 8px;
+    height: 30px;
+    width: 35px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+button.logout:hover {
+    background: #dc2626;
+}
+
+/* LOGOUT ICON */
+button.logout img.exit {
+    width: 20px;
+    height: 20px;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    background: #1e293b;
+    border: 1px solid #22c55e;
+    border-radius: 10px;
+    padding: 5px 10px;
+    flex-wrap: wrap;
+}
+
+.navbar a,
+.navbar button {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9em;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: 0.2s;
+    background: none;
+    border: none;
+}
+
+.navbar a:hover,
+.navbar button:hover {
+    background: #22c55e;
+    color: #0f172a;
+}
+
+/* ===== ADDITIONAL USER INFO (RIGHT SIDE) ===== */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* coinboxremove inside header */
+#coinboxremove {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    background: #0f172a;
+    border: 1px solid #22c55e;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 1em;
+    color: #fff;
+}
+
+#coinboxremove img.coin-icon {
+    width: 25px;
+    height: 25px;
+    image-rendering: pixelated;
+}
+
+/* ===== RESPONSIVE (MOBILE) ===== */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .userinfo {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .navbar {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 5px;
+        font-size: 0.8em;
+    }
+
+    .navbar a,
+    .navbar button {
+        font-size: 0.7em;
+        padding: 3px 6px;
+    }
+
+    .coin-box,
+    #coinboxremove {
+        padding: 4px 8px;
+        font-size: 0.9em;
+    }
+
+    button.logout {
+        width: 30px;
+        height: 30px;
+    }
+
+    button.logout img.exit {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* coinr & logoutr mobilda ko‘rinadi */
+    #coinr {
+        display: flex;
+        width: 40px;
+        height: 15px;
+        font-size: 12px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #logoutr {
+        display: block;
+    }
+
+    /* dfn tugma mobilda yashirilsin */
+    #dfn {
+        display: none;
+    }
+ .header{
+  display: flex;
+ }
+}
+
+
+    .dmd {
+      width: 40px;
+      height: 30px;
+      image-rendering: pixelated;
+    }
+    .token-box{
+      height: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: red;
+    }
+    .buybtn{
+      background-color: #22c55e;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .buybtn:hover{
+      color: white;
+      background-color: #20b958;
+    }
+    .sellbtn{
+      background-color: #dc2626;
+        border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .sellbtn:hover{
+      background-color: #f13f3f;
+      color: white;
+    }
+    /* RESPONSIVE (MOBILE) */
+    @media (max-width: 600px) {
+      .chart-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-box canvas {
+        height: 150px !important;
+      }
+
+    }
+    @media (max-width: 700px) {
+      .chart-box canvas {
+        height: auto !important;
+      }
+      .chart-box{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+    }
+        @media (max-width: 800px) {
+      .chart-box canvas {
+        height: 100px   !important;
+      }
+      .chart-box{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <div class="container">
+
+
+
+    <div class="header">
+      <div class="userinfo">
+        <span>ᴜꜱᴇʀ: <strong class="username"></strong></span>
+        <div id="coinr" class="coin-box">
+          <img src="gold.webp" class="coin-icon" alt="Coins">
+          <strong id="coins"></strong>
+
+        </div>
+        <button id="logoutr" class="logout" onclick="logout()"><img class="exit" src="logout.png" alt=""></button>
+
+      </div>
+      <div class="navbar">
+        <a href="games.html">ɢᴀᴍᴇꜱ</a>
+        <a href="home.html">ʜᴏᴍᴇ</a>
+        <a href="buytoken.html">ᴛʀᴀᴅɪɴɢ</a>
+        <a href="rank.html">ʀᴀɴᴋ</a>
+        <a href="shop.html">ꜱʜᴏᴘ</a>
+        <a href="event.html">ᴇᴠᴇɴᴛ</a>
+        <a href="leaderboard.html">ʟᴇᴀᴅᴇʀʙᴏᴀʀᴅ</a>
+        <a href="coin_purchase.html">ᴄᴏɪɴ ꜱᴏᴛɪʙ ᴏʟɪꜱʜ</a>
+        <button id="dfn" class="logout" onclick="logout()">ᴄʜɪǫɪꜱʜ</button>
+      </div>
+        <div id="coinboxremove" class="token-box">
+          <img class="dmd" src="diamond.png" alt=""><p>: <strong id="tokens">0</strong></p>
+        </div>
+    </div>
+    <h1 class="gradient-text">Token Trading Panel</h1>
+    <div class="market-box">
+      <p>Joriy token narxi:</p>
+      <h2><span id="tokenPrice">...</span> COIN</h2>
+      <p>Sotib olingan tokenlar: <strong id="tokenSupply">...</strong></p>
+    </div>
+    <div class="result" id="result"></div>
+
+
+    <div class="chart-wrapper">
+      <div class="chart-box">
+        <canvas id="tokenChart"></canvas>
+      </div>
+
+      <div class="trade-panel">
+        <div class="trade-card buy">
+          <h4>BUY</h4>
+          <input type="number" id="buyAmount" placeholder="Token">
+          <p>Narx: <strong id="totalCost">0</strong> coin</p>
+          <button class="buybtn" onclick="buyToken()">SOTIB OLISH</button>
+        </div>
+
+        <div class="trade-card sell">
+          <h4>SELL</h4>
+          <input type="number" id="sellAmount" placeholder="Token">
+          <p>Daromad: <strong id="totalSell">0</strong> coin</p>
+          <button class="sellbtn" onclick="sellToken()">SOTISH</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script src="script.js"></script>
+  <script>
+    const API = 'http://localhost:3000';
+    const token = localStorage.getItem('token');
+
+    if (!token) window.location.href = 'index.html';
+
+    let currentPrice = 0;
+    let chartLabels = [];
+    let chartData = [];
+    let tokenChart;
+    let lastPrice = 0;
+
+
+function formatCoins(amount) {
+  amount = Number(amount);
+  if (isNaN(amount)) return "0";
+
+  amount = Math.floor(amount); // faqat butun qism
+
+  if (amount >= 1000000) {
+    let formatted = Math.floor(amount / 1000000);
+    return formatted + "M";
+  } else if (amount >= 1000) {
+    let formatted = Math.floor(amount / 1000);
+    return formatted + "k";
+  } else {
+    return amount.toString();
+  }
+}
+
+
+// ================== LOAD USER ==================
+async function loadUser() {
+  const res = await fetch(`${API}/me`, { headers: { 'Authorization': token } });
+  const data = await res.json();
+  if (!data.success) {
+    localStorage.removeItem('token');
+    window.location.href = 'index.html';
+    return;
+  }
+
+  document.querySelectorAll('.username').forEach(el => el.innerText = data.user.username);
+
+  // Coins va Tokens headerda formatlangan va ortiqcha 0 lar yo‘q
+  document.getElementById('coins').innerText = formatCoins(data.user.coins);
+  document.getElementById('tokens').innerText = formatCoins(data.user.tokens);
+
+  // Muomaladagi tokenlar
+  document.getElementById('tokenSupply').innerText = formatCoins(data.user.tokens); 
+}
+
+    // ================== LOAD MARKET ==================
+    async function loadMarket() {
+      const res = await fetch(`${API}/token/market`);
+      const data = await res.json();
+      if (!data.success) return;
+
+      const newPrice = Number(data.price);
+
+      // currentPrice yangilanadi
+      currentPrice = newPrice;
+
+      document.getElementById('tokenPrice').innerText = formatCoins(newPrice);
+      // document.getElementById('tokenSupply').innerText = data.supply;
+
+      // CHART UPDATE
+      const timeLabel = new Date().toLocaleTimeString();
+      chartLabels.push(timeLabel);
+      chartData.push(newPrice);
+
+      if (chartLabels.length > 20) {
+        chartLabels.shift();
+        chartData.shift();
+      }
+
+      // Rangni aniqlash
+      let borderColor = 'rgba(75,192,192,1)';
+      let backgroundColor = 'rgba(75,192,192,0.2)';
+      if (lastPrice > 0) {
+        if (newPrice > lastPrice) {
+          borderColor = 'green';
+          backgroundColor = 'rgba(0,255,0,0.2)';
+        } else if (newPrice < lastPrice) {
+          borderColor = 'red';
+          backgroundColor = 'rgba(255,0,0,0.2)';
+        }
+      }
+      lastPrice = newPrice;
+
+      if (tokenChart) {
+        tokenChart.data.labels = chartLabels;
+        tokenChart.data.datasets[0].data = chartData;
+        tokenChart.data.datasets[0].borderColor = borderColor;
+        tokenChart.data.datasets[0].backgroundColor = backgroundColor;
+        tokenChart.update();
+      }
+    }
+
+    // ================== REAL-TIME INPUT ==================
+    document.getElementById('buyAmount').addEventListener('input', e => {
+      const amount = Number(e.target.value) || 0;
+      document.getElementById('totalCost').innerText = formatCoins(amount * currentPrice);
+    });
+
+    document.getElementById('sellAmount').addEventListener('input', e => {
+      const amount = Number(e.target.value) || 0;
+      document.getElementById('totalSell').innerText = formatCoins(amount * currentPrice * 0.85);
+    });
+    // ================== BUY TOKEN ==================
+    async function buyToken() {
+      const amount = Number(document.getElementById('buyAmount').value);
+      if (!amount || amount <= 0) return alert('Token miqdori noto‘g‘ri');
+
+      const res = await fetch(`${API}/token/buy`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': token },
+        body: JSON.stringify({ amount })
+      });
+      const data = await res.json();
+
+      const resultEl = document.getElementById('result');
+      if (!data.success) {
+        resultEl.innerText = data.message || 'Xatolik yuz berdi';
+        resultEl.style.color = 'red';
+        return;
+      }
+
+      resultEl.innerText = `✔ ${amount} token ${formatCoins(data.price)} coin narxda sotib olindi`;
+      resultEl.style.color = 'lightgreen';
+
+      document.getElementById('buyAmount').value = '';
+      document.getElementById('totalCost').innerText = '0';
+
+      await loadUser();
+      await loadMarket();
+    }
+
+    // ================== SELL TOKEN ==================
+    async function sellToken() {
+      const amount = Number(document.getElementById('sellAmount').value);
+      if (!amount || amount <= 0) return alert('Token miqdori noto‘g‘ri');
+
+      const res = await fetch(`${API}/token/sell`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': token },
+        body: JSON.stringify({ amount })
+      });
+      const data = await res.json();
+
+      const resultEl = document.getElementById('result');
+      if (!data.success) {
+        resultEl.innerText = data.message || 'Xatolik yuz berdi';
+        resultEl.style.color = 'red';
+        return;
+      }
+
+      resultEl.innerText = `✔ ${amount} token ${formatCoins(Math.floor(data.price * amount))} coin narxda sotildi`;
+      resultEl.style.color = 'lightgreen';
+
+      document.getElementById('sellAmount').value = '';
+      document.getElementById('totalSell').innerText = '0';
+
+      await loadUser();
+      await loadMarket();
+    }
+
+    // ================== REAL-TIME INPUT ==================
+    document.getElementById('buyAmount').addEventListener('input', e => {
+      const amount = Number(e.target.value) || 0;
+      document.getElementById('totalCost').innerText = formatCoins(amount * currentPrice);
+    });
+
+    document.getElementById('sellAmount').addEventListener('input', e => {
+      const amount = Number(e.target.value) || 0;
+      document.getElementById('totalSell').innerText = formatCoins(amount * currentPrice * 0.85);
+    });
+
+    // ================== INIT CHART ==================
+    function initChart() {
+      const ctx = document.getElementById('tokenChart').getContext('2d');
+      tokenChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: chartLabels,
+          datasets: [{
+            label: 'Token Narxi (COIN)',
+            data: chartData,
+            borderColor: 'rgba(75,192,192,1)',
+            backgroundColor: 'rgba(75,192,192,0.2)',
+            tension: 0.3,
+          }]
+        },
+        options: {
+          responsive: true,
+          animation: false,
+          scales: {
+            y: { beginAtZero: false },
+            x: { ticks: { maxTicksLimit: 10 } }
+          }
+        }
+      });
+    }
+
+    // ================== AUTO REFRESH ==================
+    function startLiveUpdate() {
+      setInterval(loadMarket, 5000);
+    }
+
+    // ================== PAGE LOAD ==================
+    loadUser();
+    initChart();
+    startLiveUpdate();
+  </script>
+
+</body>
+
+</html>
