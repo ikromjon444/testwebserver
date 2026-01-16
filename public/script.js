@@ -428,7 +428,7 @@ function startGame() {
         gameTimeout = null;
 
         // Serverga yuborish
-        await fetch('https://mcback.onrender.com/play-game', {
+        await fetch('https://uzbsmpback.onrender.com/play-game', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': token },
             body: JSON.stringify({ coinsEarned: coinsCaught })
