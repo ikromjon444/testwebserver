@@ -11,35 +11,37 @@
 
 <body>
     <div class="container">
-        <div class="header">
-            <div class="userinfo">
-                <span>User: <strong class="username"></strong></span>
-                <div id="coinr" class="coin-box">
-                    <img src="gold.webp" class="coin-icon" alt="Coins">
-                    <strong id="coins"></strong>
+    <div class="header">
+      <div class="userinfo">
+        <span>ᴜꜱᴇʀ: <strong class="username"></strong></span>
+        <div id="coinr" class="coin-box">
+          <img src="gold.webp" class="coin-icon" alt="Coins">
+          <strong id="coins"></strong>
 
-                </div>
-                <button id="logoutr" class="logout" onclick="logout()"><img class="exit" src="logout.png"
-                        alt=""></button>
-
-            </div>
-            <div class="navbar">
-                <a href="games.html">Games</a>
-                <a href="home.html">Home</a>
-                <a href="rank.html">Rank</a>
-                <a href="shop.html">Shop</a>
-                <a href="coin_purchase.html">Coin sotib olish</a>
-                <button id="dfn" class="logout" onclick="logout()">Logout</button>
-            </div>
-            <div class="user-info">
-                <div id="coinboxremove" class="coin-box">
-                    <img src="gold.webp" class="coin-icon" alt="Coins">
-                    <strong id="coins2"></strong>
-
-                </div>
-
-            </div>
         </div>
+        <button id="logoutr" class="logout" onclick="logout()"><img class="exit" src="logout.png" alt=""></button>
+
+      </div>
+      <div class="navbar">
+        <a href="games.html">ɢᴀᴍᴇꜱ</a>
+        <a href="home.html">ʜᴏᴍᴇ</a>
+        <a href="buytoken.html">ᴛʀᴀᴅɪɴɢ</a>
+        <a href="rank.html">ʀᴀɴᴋ</a>
+        <a href="shop.html">ꜱʜᴏᴘ</a>
+        <a href="event.html">ᴇᴠᴇɴᴛ</a>
+        <a href="leaderboard.html">ʟᴇᴀᴅᴇʀʙᴏᴀʀᴅ</a>
+        <a href="coin_purchase.html">ᴄᴏɪɴ</a>
+        <button id="dfn" class="logout" onclick="logout()">ᴄʜɪǫɪꜱʜ</button>
+      </div>
+      <div class="user-info">
+        <div id="coinboxremove" class="coin-box">
+          <img src="gold.webp" class="coin-icon" alt="Coins">
+          <strong id="coins2"></strong>
+
+        </div>
+
+      </div>
+    </div>
         <div id="toast-container"></div>
 
         <div class="coin-purchase-box">
@@ -71,7 +73,8 @@
             <div class="chiziq"></div>
             <input class="promo-input" type="text" id="promoInput" placeholder="Promokodni kiriting">
             <button class="promo-btn" onclick="redeemCode()">Redeem</button>
-            <div class="chiziq"></div>
+            <p>promokodlardan habardor bo'lib turmoqchimisiz? <a href="https://t.me/uzbeksmp" target="_blank">telegram</a><br>kanaldan habardor bo'lib turing</p>
+
 
             <p id="purchase-result"></p>
         </div>
@@ -94,22 +97,22 @@
                 }
             }
 
-           function formatCoins(coins) {
-    if (coins < 1000) {
-        return coins.toString();
-    }
+ function formatCoins(amount) {
+  amount = Number(amount);
+  if (isNaN(amount)) return "0";
 
-    if (coins < 1_000_000) {
-        return (coins / 1000)
-            .toFixed(coins % 1000 === 0 ? 0 : 1)
-            .replace('.0', '') + 'k';
-    }
+  amount = Math.floor(amount); // faqat butun qism
 
-    return (coins / 1_000_000)
-        .toFixed(coins % 1_000_000 === 0 ? 0 : 1)
-        .replace('.0', '') + 'M';
+  if (amount >= 1000000) {
+    let formatted = Math.floor(amount / 1000000);
+    return formatted + "M";
+  } else if (amount >= 1000) {
+    let formatted = Math.floor(amount / 1000);
+    return formatted + "k";
+  } else {
+    return amount.toString();
+  }
 }
-
 
             function calculatePrice() {
                 const coinAmount = parseInt(document.getElementById("coinInput").value);
@@ -123,28 +126,6 @@
                     document.getElementById("coinPriceResult").innerText = `${formatCoins(coinAmount)} coin = ${price.toLocaleString()} so'm`;
                 }
             }
-            async function fetchLeaderboard() {
-                try {
-                    const res = await fetch('https://uzbsmpback.onrender.com/leaderboard');
-                    const data = await res.json();
-                    if (data.success) {
-                        const list = document.getElementById('leaderboard-list');
-                        list.innerHTML = '';
-                        data.leaderboard.forEach((user, index) => {
-                            const li = document.createElement('li');
-                            li.textContent = `${index + 1}. ${user.username} - ${formatCoins(user.coins)} coins `;
-                            list.appendChild(li);
-                        });
-
-                    }
-                } catch (err) {
-                    console.error(err);
-                }
-            }
-
-            // Har 5 soniyada yangilash
-            fetchLeaderboard();
-            setInterval(fetchLeaderboard, 5000);
             async function redeemCode() {
                 const code = document.getElementById('promoInput').value;
                 const token = localStorage.getItem('token'); // login token
@@ -152,7 +133,7 @@
                 if (!code) return alert("Promokod kiriting");
 
                 try {
-                    const res = await fetch('https://uzbsmpback.onrender.com/redeem', {
+                    const res = await fetch('http://localhost:3000/redeem', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -196,7 +177,7 @@
                 }
 
                 try {
-                    const res = await fetch('https://uzbsmpback.onrender.com/redeem', {
+                    const res = await fetch('http://localhost:3000/redeem', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
