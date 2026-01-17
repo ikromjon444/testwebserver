@@ -188,7 +188,7 @@ async function banUser() {
         { id: 4, name: 'Elytra', price: 10000, image: 'elytra.webp' },
         { id: 5, name: 'Villager Spawn Egg', price: 10000, image: 'villageregg.png' },
         { id: 6, name: 'Wind Charge (64)', price: 1500, image: 'windcharge.webp' },
-        { id: 7, name: 'End Crystal', price: 1500, image: 'endcrystal.webp' },
+        { id: 7, name: 'End Crystal', price: 700, image: 'endcrystal.webp' },
         { id: 8, name: 'Respawn Anchor', price: 1000, image: 'respawnanchor.png' },
         { id: 9, name: 'Trident', price: 5000, image: 'tridient.webp' },
         { id: 10, name: 'Nether Star', price: 3000, image: 'netherstar.gif' },
