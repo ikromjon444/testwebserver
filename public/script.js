@@ -52,7 +52,22 @@
         }
     }
 
-
+function unbanUser(username, button) {
+    fetch('/admin/unban', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username })
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+        if (data.success) {
+            const row = button.closest('tr');
+            row.remove();
+        }
+    })
+    .catch(err => console.error('Error:', err));
+}
     async function login() {
         const username = document.getElementById('username').value.trim();
         const password = document.getElementById('password').value.trim();
@@ -88,11 +103,12 @@
             });
             const userData = await userRes.json();
 
-            if (!userData.success) {
-                result.innerText = "User ma'lumotini olishda xato!";
-                result.style.color = 'red';
-                return;
-            }
+           if (!data.success) {
+    result.innerText = data.message; // endi ban qolgan vaqt ko‘rsatiladi
+    result.style.color = 'red';
+    return;
+}
+
 
             // Rankga qarab yo‘naltirish
             const rank = userData.user.rank;
@@ -108,12 +124,38 @@
             result.style.color = 'red';
         }
     }
+async function banUser() {
+  const username = document.getElementById('ban-username').value.trim();
+  const duration = parseInt(document.getElementById('ban-duration').value) || 0;
+  const unit = document.getElementById('ban-unit').value;
+
+  if (!username) return showToast('Username kerak', 'error');
+  if (!duration) return showToast('Duration kerak', 'error');
+
+  const token = getToken();
+  if (!token) return showToast('Avval login qiling', 'error');
+
+  try {
+    const res = await fetch('https://uzbsmpback.onrender.com/admin/ban', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': token },
+      body: JSON.stringify({ username, duration, unit }) // <--- duration + unit yuboriladi
+    });
+    const data = await res.json();
+    showToast(data.message, data.success ? 'success' : 'error');
+    loadUsers();
+  } catch (err) {
+    console.error(err);
+    showToast('Xatolik yuz berdi', 'error');
+  }
+}
+
 
     function loadUser() {
         const token = getToken();
         if (!token) return window.location.href = 'index.html';
 
-        fetch('https://mcback.onrender.com/me', {
+        fetch('https://uzbsmpback.onrender.com/me', {
             headers: { 'Authorization': token }
         })
             .then(res => res.json())
@@ -154,15 +196,24 @@
         { id: 12, name: 'Smithing Template', price: 5000, image: 'smithing.webp' }
     ];
 
-    function formatCoins(amount) {
-        if (amount >= 1000000) {
-            return (amount / 1000000).toFixed(1).replace(/\.0$/, '') + "M"; // million
-        } else if (amount >= 1000) {
-            return (amount / 1000).toFixed(1).replace(/\.0$/, '') + "k"; // ming
-        } else {
-            return amount; // 1000 dan kichik
-        }
-    }
+
+function formatCoins(amount) {
+  amount = Number(amount);
+  if (isNaN(amount)) return "0";
+
+  amount = Math.floor(amount); // faqat butun qism
+
+  if (amount >= 1000000) {
+    let formatted = Math.floor(amount / 1000000);
+    return formatted + "M";
+  } else if (amount >= 1000) {
+    let formatted = Math.floor(amount / 1000);
+    return formatted + "k";
+  } else {
+    return amount.toString();
+  }
+}
+
 
     function renderShop(items = SHOP_ITEMS) {
         const container = document.getElementById('shop-items');
@@ -223,6 +274,12 @@
         renderShop();
     }
     if (page.endsWith('item.html')) {
+        loadUser();
+    }
+        if (page.endsWith('leaderboard.html')) {
+        loadUser();
+    }
+        if (page.endsWith('event.html')) {
         loadUser();
     }
 
@@ -470,7 +527,7 @@ function startGame() {
         }
 
         try {
-            const res = await fetch('https://uzbsmpback.onrender.com/vip', {
+            const res = await fetch('https://uzbsmpback.onrender.com/buy-rank/vip', {
                 method: 'POST',
                 headers: {
                     'Authorization': token,
