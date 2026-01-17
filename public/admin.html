@@ -115,7 +115,7 @@ async function giveCoin() {
   }
 
   try {
-    const res = await fetch('http://localhost:3000/givecoin', {
+    const res = await fetch('https://uzbsmpback.onrender.com/givecoin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ async function giveRank() {
   if (!username || !rank) return showToast('Username va rank kerak', 'error');
 
   try {
-    const res = await fetch('http://localhost:3000/give-rank', {
+    const res = await fetch('https://uzbsmpback.onrender.com/give-rank', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': token },
       body: JSON.stringify({ username, rank })
@@ -157,7 +157,7 @@ async function addPromo() {
   if (!code || !coins) return showToast('Kod va coin miqdori kerak', 'error');
 
   try {
-    const res = await fetch('http://localhost:3000/admin/add-promo', {
+    const res = await fetch('https://uzbsmpback.onrender.com/admin/add-promo', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': token },
       body: JSON.stringify({ code, coins, expire_date })
@@ -173,7 +173,7 @@ async function addPromo() {
 // Foydalanuvchilar ro‘yxati
 async function loadUsers() {
   try {
-    const usersRes = await fetch('http://localhost:3000/admin/users', { headers: { 'Authorization': token } });
+    const usersRes = await fetch('https://uzbsmpback.onrender.com/admin/users', { headers: { 'Authorization': token } });
     const data = await usersRes.json();
     const list = document.getElementById('users-list');
     list.innerHTML = '';
@@ -195,7 +195,7 @@ async function uploadBanner() {
   formData.append('banner', fileInput.files[0]);
 
   try {
-    const res = await fetch('http://localhost:3000/admin/upload-banner', {
+    const res = await fetch('https://uzbsmpback.onrender.com/admin/upload-banner', {
       method: 'POST',
       headers: { 'Authorization': token },
       body: formData
@@ -218,3 +218,4 @@ function logout() {
 <script src="script.js"></script>
 </body>
 </html>
+
