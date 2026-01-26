@@ -95,13 +95,16 @@ function unbanUser(username, button) {
             }
 
             // Token saqlash
-            setToken(data.token);
+           // Token saqlash
+setToken(data.token);
 
-            // Foydalanuvchi ma'lumotini olish
-            const userRes = await fetch('https://uzbsmpback.onrender.com/me', {
-                headers: { 'Authorization': data.token }
-            });
-            const userData = await userRes.json();
+// Foydalanuvchi ma'lumotini olish
+const token = getToken();
+const userRes = await fetch('https://uzbsmpback.onrender.com/me', {
+    headers: { 'Authorization': `Bearer ${token}` }
+});
+const userData = await userRes.json();
+
 
            if (!data.success) {
     result.innerText = data.message; // endi ban qolgan vaqt ko‘rsatiladi
