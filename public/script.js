@@ -141,7 +141,11 @@ async function banUser() {
   try {
     const res = await fetch('https://uzbsmpback.onrender.com/admin/ban', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': token },
+     headers: { 
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+},
+
       body: JSON.stringify({ username, duration, unit }) // <--- duration + unit yuboriladi
     });
     const data = await res.json();
@@ -158,9 +162,10 @@ async function banUser() {
         const token = getToken();
         if (!token) return window.location.href = 'index.html';
 
-        fetch('https://uzbsmpback.onrender.com/me', {
-            headers: { 'Authorization': token }
-        })
+fetch('https://uzbsmpback.onrender.com/me', {
+    headers: { 'Authorization': `Bearer ${token}` }
+})
+
             .then(res => res.json())
             .then(data => {
                 if (!data.success) return logout();
@@ -490,7 +495,11 @@ function startGame() {
         // Serverga yuborish
         await fetch('https://uzbsmpback.onrender.com/play-game', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': token },
+            headers: { 
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+},
+
             body: JSON.stringify({ coinsEarned: coinsCaught })
         });
 
@@ -532,10 +541,11 @@ function startGame() {
         try {
             const res = await fetch('https://uzbsmpback.onrender.com/buy-rank/vip', {
                 method: 'POST',
-                headers: {
-                    'Authorization': token,
-                    'Content-Type': 'application/json'
-                }
+              headers: { 
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+},
+
             });
 
             const data = await res.json();
