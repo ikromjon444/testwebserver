@@ -1,3 +1,4 @@
+meni frontend kodim
     function setToken(token) { localStorage.setItem('token', token); }
     function getToken() { return localStorage.getItem('token'); }
     function removeToken() { localStorage.removeItem('token'); }
@@ -34,11 +35,7 @@
         try {
             const res = await fetch('https://uzbsmpback.onrender.com/register', {
                 method: 'POST',
-            headers: {
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${token}`
-}
-
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
             });
 
@@ -59,11 +56,7 @@
 function unbanUser(username, button) {
     fetch('/admin/unban', {
         method: 'POST',
-        headers: {
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${token}`
-}
-
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username })
     })
     .then(res => res.json())
@@ -90,11 +83,7 @@ function unbanUser(username, button) {
         try {
             const res = await fetch('https://uzbsmpback.onrender.com/login', {
                 method: 'POST',
-               headers: {
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${token}`
-}
-
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
             });
 
@@ -107,16 +96,13 @@ function unbanUser(username, button) {
             }
 
             // Token saqlash
-           // Token saqlash
-setToken(data.token);
+            setToken(data.token);
 
-// Foydalanuvchi ma'lumotini olish
-const token = getToken();
-const userRes = await fetch('https://uzbsmpback.onrender.com/me', {
-    headers: { 'Authorization': `Bearer ${token}` }
-});
-const userData = await userRes.json();
-
+            // Foydalanuvchi ma'lumotini olish
+            const userRes = await fetch('https://uzbsmpback.onrender.com/me', {
+                headers: { 'Authorization': data.token }
+            });
+            const userData = await userRes.json();
 
            if (!data.success) {
     result.innerText = data.message; // endi ban qolgan vaqt ko‘rsatiladi
@@ -153,11 +139,7 @@ async function banUser() {
   try {
     const res = await fetch('https://uzbsmpback.onrender.com/admin/ban', {
       method: 'POST',
-     headers: { 
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-},
-
+      headers: { 'Content-Type': 'application/json', 'Authorization': token },
       body: JSON.stringify({ username, duration, unit }) // <--- duration + unit yuboriladi
     });
     const data = await res.json();
@@ -174,13 +156,13 @@ async function banUser() {
         const token = getToken();
         if (!token) return window.location.href = 'index.html';
 
-fetch('https://uzbsmpback.onrender.com/me', {
-    headers: { 'Authorization': `Bearer ${token}` }
-})
-
+        fetch('https://uzbsmpback.onrender.com/me', {
+            headers: { 'Authorization': token }
+        })
             .then(res => res.json())
             .then(data => {
                 if (!data.success) return logout();
+
                 document.querySelectorAll('.username').forEach(el => {
                     el.innerText = data.user.username;
                 });
@@ -506,11 +488,7 @@ function startGame() {
         // Serverga yuborish
         await fetch('https://uzbsmpback.onrender.com/play-game', {
             method: 'POST',
-            headers: { 
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-},
-
+            headers: { 'Content-Type': 'application/json', 'Authorization': token },
             body: JSON.stringify({ coinsEarned: coinsCaught })
         });
 
@@ -552,11 +530,10 @@ function startGame() {
         try {
             const res = await fetch('https://uzbsmpback.onrender.com/buy-rank/vip', {
                 method: 'POST',
-              headers: { 
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-},
-
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                }
             });
 
             const data = await res.json();
