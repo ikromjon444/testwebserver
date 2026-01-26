@@ -34,7 +34,11 @@
         try {
             const res = await fetch('https://uzbsmpback.onrender.com/register', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+            headers: {
+  'Content-Type': 'application/json',
+  'Authorization': `Bearer ${token}`
+}
+
                 body: JSON.stringify({ username, password })
             });
 
@@ -55,7 +59,11 @@
 function unbanUser(username, button) {
     fetch('/admin/unban', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+  'Content-Type': 'application/json',
+  'Authorization': `Bearer ${token}`
+}
+
         body: JSON.stringify({ username })
     })
     .then(res => res.json())
@@ -82,7 +90,11 @@ function unbanUser(username, button) {
         try {
             const res = await fetch('https://uzbsmpback.onrender.com/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+               headers: {
+  'Content-Type': 'application/json',
+  'Authorization': `Bearer ${token}`
+}
+
                 body: JSON.stringify({ username, password })
             });
 
@@ -169,7 +181,6 @@ fetch('https://uzbsmpback.onrender.com/me', {
             .then(res => res.json())
             .then(data => {
                 if (!data.success) return logout();
-
                 document.querySelectorAll('.username').forEach(el => {
                     el.innerText = data.user.username;
                 });
