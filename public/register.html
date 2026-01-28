@@ -7,7 +7,6 @@
     <link rel="icon" type="image/x-icon" href="logo.png">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Ko‘z belgisi uchun CSS, sahifa dizayniga mos */
         .password-container {
             position: relative;
         }
@@ -20,6 +19,46 @@
             font-size: 18px;
             user-select: none;
         }
+        .input-group {
+    position: relative;
+    width: 90%;
+    margin: 10px 0;
+}
+
+/* Sizning login-input stylingeniz */
+.input-group .login-input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid #22c55e;
+    border-radius: 8px;
+    background: #0f172a;
+    color: #fff;
+    font-size: 1em;
+    outline: none;
+}
+
+/* Floating label uchun */
+.input-group label {
+    position: absolute;
+    left: 20px; /* padding bilan moslash */
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 1em;
+    pointer-events: none;
+    transition: 0.2s ease all;
+}
+
+/* Fokus bo‘lganda yoki text kirilganda label yuqoriga ko‘tariladi */
+.input-group .login-input:focus ~ label,
+.input-group .login-input:valid ~ label {
+    top: -5px;
+    font-size: 0.8em;
+    color: #22c55e;
+    background: #0f172a; /* label ostida fon bo‘lsa input rangiga mos */
+    padding: 0 5px;
+}
+
     </style>
 </head>
 <body>
@@ -27,7 +66,12 @@
         <img src="logo.png" alt="Logo" class="login-logo">
         <div class="register-form">
             <h1>Register</h1>
-            <input class="login-input" type="text" id="username" placeholder="Minecraft name">
+<div class="input-group">
+  <input class="login-input" type="text" id="username" required>
+  <label for="username">Minecraft nomingizni yozing</label>
+</div>
+
+
             
             <div class="password-container">
                 <input class="login-input" type="password" id="password" placeholder="Password">
